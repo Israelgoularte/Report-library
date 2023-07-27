@@ -7,14 +7,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <?import java.lang.String?>
-<BorderPane stylesheets="@css/basicStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.views.LinksController">
+<BorderPane stylesheets="@css/basicStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.dev.control.views.AdicionarLinkController">
     <!-- ... Restante do código ... -->
     <top>
         <HBox fx:id="topBox" styleClass="vbox-background" HBox.hgrow="ALWAYS">
             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                 <MenuBar prefHeight="26.0" prefWidth="163.0">
                     <Menu fx:id="menu_navegacao" text="Navegação">
-                        <MenuItem text="Adicionar Link" onAction="#adicionarLink"/>
+                        <MenuItem text="Todos os Links" onAction="#linksPage"/>
 
                     </Menu>
                     <Menu text="Help">
@@ -42,84 +43,83 @@
     </top>
 
     <center>
-        <VBox alignment="TOP_CENTER" maxWidth="1024" styleClass="vbox-background" VBox.vgrow="ALWAYS">
-            <padding>
-                <Insets topRightBottomLeft="10" />
-            </padding>
-            <Label text="Filtros " />
-            <HBox maxHeight="100" maxWidth="1024" spacing="10">
-                <padding>
-                    <Insets topRightBottomLeft="5" />
-                </padding>
-                <Label text="Nome: " />
-                <TextField fx:id="filtroNome" onKeyPressed="#filtrarNome" prefWidth="150" />
+        <BorderPane>
+            <top>
 
-                <Label text="Categoria: " />
-                <ChoiceBox fx:id="categoriaChoiceFilter" onAction="#filtrar" />
-
-                <Label text="Descrição: " />
-                <TextField fx:id="filtroDescricao" onKeyPressed="#filtrarDescricao" prefWidth="150" />
-            </HBox>
-            <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="1024">
-                <content>
-                    <VBox fx:id="centralBox" maxWidth="1024" spacing="10">
+            </top>
+            <center>
+                <VBox alignment="CENTER" maxWidth="400" maxHeight="800">
+                    <HBox alignment="TOP_LEFT">
                         <padding>
-                            <Insets bottom="10" left="30" right="30" top="10" />
+                            <Insets bottom="0"/>
                         </padding>
+                        <VBox styleClass="vbox-background" alignment="CENTER" spacing="10"  HBox.hgrow="ALWAYS" maxWidth="200">
+                            <Label alignment="CENTER" text="Adicionar Link" />
+                        </VBox>
+                    </HBox>
+                    <VBox styleClass="vbox-background" alignment="CENTER">
+                        <padding>
+                            <Insets top="10" bottom="10"/>
+                        </padding>
+                        <HBox alignment="CENTER" spacing="5" >
+                            <Label minWidth="70" text="Nome:" alignment="CENTER_RIGHT" />
+                            <TextField fx:id="nomeField" prefWidth="200" />
+                            <padding>
+                                <Insets topRightBottomLeft="10"/>
+                            </padding>
+                        </HBox>
+                        <HBox fx:id="tipoBox" alignment="CENTER" spacing="5">
+                            <Label minWidth="70" text="Tipo:"  alignment="CENTER_RIGHT"/>
+                            <ChoiceBox prefWidth="200" fx:id="tipoChoice" onAction="#checkTipoChoice"/>
+                            <padding>
+                                <Insets topRightBottomLeft="10"/>
+                            </padding>
+                        </HBox>
+                        <HBox fx:id="categoriaBox" alignment="CENTER" spacing="5">
+                            <Label minWidth="70" text="Categoria:" alignment="CENTER_RIGHT" />
+                            <ChoiceBox prefWidth="200" fx:id="categoriaChoice" onAction="#checkCategoriaChoice"/>
+                            <padding>
+                                <Insets topRightBottomLeft="10"/>
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="5">
+                            <Label minWidth="70" text="Link:" alignment="CENTER_RIGHT" />
+                            <TextField fx:id="linkField" prefWidth="200" />
+                            <padding>
+                                <Insets topRightBottomLeft="10"/>
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="5">
+                            <Label minWidth="70" text="Descrição:" alignment="CENTER_RIGHT" />
+                            <TextArea fx:id="descricaoField" maxHeight="120" prefWidth="200"  wrapText="true" />
+                            <padding>
+                                <Insets topRightBottomLeft="10"/>
+                            </padding>
+                        </HBox>
                     </VBox>
-                </content>
-            </ScrollPane>
-        </VBox>
+                    <HBox alignment="TOP_RIGHT">
+                        <padding>
+                            <Insets bottom="10" top="3"/>
+                        </padding>
+                        <HBox styleClass="vbox-background" alignment="CENTER" spacing="5" maxWidth="220">
+                            <Button prefWidth="100" fx:id="novoLink" mnemonicParsing="false" onAction="#saveNovoLink" text="Salvar" />
+                            <Button prefWidth="100" fx:id="limparNovoLink" mnemonicParsing="false" onAction="#limparNovoLink" text="Limpar" />
+                            <padding>
+                                <Insets topRightBottomLeft="10"/>
+                            </padding>
+                        </HBox>
+                    </HBox>
+                    <VBox fx:id="warningBox" styleClass="vbox-background" alignment="CENTER" visible="false">
+                        <padding>
+                            <Insets bottom="5" top="5"/>
+                        </padding>
+                        <ProgressBar prefHeight="20.0" minHeight="20" prefWidth="200.0" progress="0.0" fx:id="progress" visible="false"/>
+                    </VBox>
+                </VBox>
+            </center>
+            <bottom>
+
+            </bottom>
+        </BorderPane>
     </center>
-
-    <left>
-        <VBox alignment="TOP_CENTER" spacing="5" >
-            <padding>
-                <Insets topRightBottomLeft="5" />
-            </padding>
-            <VBox fx:id="cadastrarLinkWarningbox" alignment="CENTER" spacing="10" styleClass="vbox-background" HBox.hgrow="ALWAYS" maxWidth="200">
-                <Label alignment="CENTER" text="Cadastre um novo Link" />
-            </VBox>
-
-            <VBox alignment="CENTER" spacing="10">
-
-                <HBox alignment="CENTER" spacing="5" styleClass="vbox-background">
-                    <Label minWidth="70" text="Nome" />
-                    <TextField fx:id="nomeField" prefWidth="200" />
-                    <padding>
-                        <Insets topRightBottomLeft="10"/>
-                    </padding>
-                </HBox>
-                <HBox fx:id="novoLinkChoiceBoxCategoria" alignment="CENTER" spacing="5" styleClass="vbox-background">
-                    <Label minWidth="70" text="Categoria" />
-                    <ChoiceBox prefWidth="200" fx:id="categoriaChoice"/>
-                    <!--TextField fx:id="categoriaField" prefWidth="150" /-->
-                    <padding>
-                        <Insets topRightBottomLeft="10"/>
-                    </padding>
-                </HBox>
-                <HBox alignment="CENTER" spacing="5" styleClass="vbox-background">
-                    <Label minWidth="70" text="Link" />
-                    <TextField fx:id="linkField" prefWidth="200" />
-                    <padding>
-                        <Insets topRightBottomLeft="10"/>
-                    </padding>
-                </HBox>
-                <HBox alignment="CENTER" spacing="5" styleClass="vbox-background">
-                    <Label minWidth="70" text="Descrição" />
-                    <TextArea fx:id="textArea" maxHeight="120" prefWidth="200"  wrapText="true" />
-                    <padding>
-                        <Insets topRightBottomLeft="10"/>
-                    </padding>
-                </HBox>
-                <HBox alignment="CENTER" spacing="5" styleClass="vbox-background" maxWidth="220">
-                    <Button prefWidth="100" fx:id="novoLink" mnemonicParsing="false" onAction="#saveNovoLink" text="Salvar" />
-                    <Button prefWidth="100" fx:id="limparNovoLink" mnemonicParsing="false" onAction="#limparNovoLink" text="Limpar" />
-                    <padding>
-                        <Insets topRightBottomLeft="10"/>
-                    </padding>
-                </HBox>
-            </VBox>
-        </VBox>
-    </left>
 </BorderPane>

@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@jakarta.persistence.Table(name = "links", schema = "prog_uteis", catalog = "bluewolf")
+@jakarta.persistence.Table(name = "links")
 public class LinksModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -33,16 +33,29 @@ public class LinksModel {
         this.nome = nome;
     }
 
-    @Basic
-    @Column(name = "tipodeprograma", nullable = true, length = 255)
-    private String tipodeprograma;
 
-    public String getTipodeprograma() {
-        return tipodeprograma;
+    @Basic
+    @Column(name = "tipo", nullable = true, length = 255)
+    private String tipo;
+
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setTipodeprograma(String tipodeprograma) {
-        this.tipodeprograma = tipodeprograma;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    @Basic
+    @Column(name = "categoria", nullable = true, length = 255)
+    private String categoria;
+
+    public String getcategoria() {
+        return categoria;
+    }
+
+    public void setcategoria(String tipodeprograma) {
+        this.categoria = tipodeprograma;
     }
 
     @Basic
@@ -69,16 +82,28 @@ public class LinksModel {
         this.dataDeCriacao = dataDeCriacao;
     }
 
+    @Basic
+    @Column(name = "decricao", nullable = true)
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LinksModel that = (LinksModel) o;
-        return id == that.id && Objects.equals(nome, that.nome) && Objects.equals(tipodeprograma, that.tipodeprograma) && Objects.equals(link, that.link) && Objects.equals(dataDeCriacao, that.dataDeCriacao);
+        return id == that.id && Objects.equals(nome, that.nome) && Objects.equals(categoria, that.categoria) && Objects.equals(descricao, that.descricao) && Objects.equals(link, that.link) && Objects.equals(dataDeCriacao, that.dataDeCriacao);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nome, tipodeprograma, link, dataDeCriacao);
+        return Objects.hash(id, nome, categoria, descricao, link, dataDeCriacao);
     }
 }

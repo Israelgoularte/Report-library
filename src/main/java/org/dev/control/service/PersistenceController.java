@@ -15,43 +15,59 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A classe PersistenceController é responsável por ler o arquivo persistence.xml e recuperar os nomes
+ * das unidades de persistência definidas nele.
+ * @author Israel Goularte
+ * @version 1.0
+ * @since 2023-07-23
+ */
 public class PersistenceController {
 
-    public static List<String> getUnits() throws IOException, ParserConfigurationException, SAXException, URISyntaxException {
-        // Get the input file
-        File inputFile = new File(new URI(""+ClassLoader.getSystemResource("META-INF/persistence.xml")));
+    /**
+     * Retorna uma lista de nomes das unidades de persistência definidas no arquivo persistence.xml.
+     *
+     * @return Uma lista contendo os nomes das unidades de persistência.
+     * @throws IOException                  Se ocorrer um erro de leitura do arquivo persistence.xml.
+     * @throws ParserConfigurationException Se ocorrer um erro de configuração do parser XML.
+     * @throws SAXException                 Se ocorrer um erro de parse do arquivo XML.
+     * @throws URISyntaxException          Se ocorrer um erro ao criar a URI para o arquivo persistence.xml.
+     */
+    public static List<String> getUnitsName() throws IOException, ParserConfigurationException, SAXException, URISyntaxException {
+        // Obtém o arquivo de entrada
+        File inputFile = new File(new URI("" + ClassLoader.getSystemResource("META-INF/persistence.xml")));
 
-        // Create a DocumentBuilderFactory
+        // Cria um DocumentBuilderFactory
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
-        // Create a DocumentBuilder
+        // Cria um DocumentBuilder
         DocumentBuilder db = dbFactory.newDocumentBuilder();
 
-        // Parse the input file
+        // Faz o parse do arquivo de entrada
         Document document = db.parse(inputFile);
 
-        // Get the root element
+        // Obtém o elemento raiz
         Element rootElement = document.getDocumentElement();
 
-        // Get the list of units
+        // Obtém a lista de unidades de persistência
         NodeList unitsList = rootElement.getElementsByTagName("persistence-unit");
 
-        // Create a list to store the unit names
+        // Cria uma lista para armazenar os nomes das unidades
         List<String> unitNames = new ArrayList<>();
 
-        // Iterate through the list of units
+        // Itera pela lista de unidades
         for (int i = 0; i < unitsList.getLength(); i++) {
-            // Get the current unit
+            // Obtém a unidade atual
             Element unitElement = (Element) unitsList.item(i);
 
-            // Get the unit name
+            // Obtém o nome da unidade
             String unitName = unitElement.getAttribute("name");
 
-            // Add the unit name to the list
+            // Adiciona o nome da unidade à lista
             unitNames.add(unitName);
         }
 
-        // Print the list of unit names
+        // Retorna a lista de nomes das unidades
         return unitNames;
     }
 }

@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<BorderPane stylesheets="@css/basicStyle.css"
-            xmlns="http://javafx.com/javafx/19"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.dev.control.views.LinksController">
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<BorderPane stylesheets="@css/basicStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.views.LinksController">
     <!-- ... Restante do código ... -->
     <top>
         <HBox fx:id="topBox" styleClass="vbox-background" HBox.hgrow="ALWAYS">
             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
                 <MenuBar prefHeight="26.0" prefWidth="163.0">
-                    <Menu text="Navegação">
-                        <Menu fx:id="menu_Disponiveis" text="Disponiveis" />
-                        <MenuItem text="Visualizar" />
-                        <MenuItem text="Editar" />
+                    <Menu fx:id="menu_navegacao" text="Navegação">
+                        <MenuItem text="Adicionar Link" onAction="#adicionarLink"/>
+
                     </Menu>
                     <Menu text="Help">
 
@@ -31,7 +23,7 @@
                 </MenuBar>
             </HBox>
             <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
-                <Label alignment="CENTER" prefHeight="26.0" prefWidth="295.0" text="Aplicativos" textAlignment="CENTER">
+                <Label alignment="CENTER" prefHeight="26.0" prefWidth="295.0" text="SoftWareHouse" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="16.0" />
                     </font>
@@ -50,15 +42,36 @@
     </top>
 
     <center>
-        <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="1200">
-            <content>
-                <VBox fx:id="centralBox" maxWidth="1200" spacing="10">
-                    <padding>
-                        <Insets bottom="10" left="30" right="30" top="10" />
-                    </padding>
-                </VBox>
-            </content>
-        </ScrollPane>
+        <VBox alignment="TOP_CENTER" maxHeight="900" maxWidth="1024" styleClass="vbox-background" VBox.vgrow="ALWAYS">
+            <padding>
+                <Insets topRightBottomLeft="10" />
+            </padding>
+            <Label text="Filtros " />
+            <HBox maxHeight="100" maxWidth="1024" spacing="10">
+                <padding>
+                    <Insets topRightBottomLeft="5" />
+                </padding>
+                <Label text="Nome: " />
+                <TextField fx:id="filtroNome" onKeyPressed="#filter" prefWidth="150" />
+
+                <Label text="Tipo: " />
+                <ChoiceBox fx:id="tipeChoiceFilter" onAction="#filter" />
+
+                <Label text="Categoria: " />
+                <ChoiceBox fx:id="categoriaChoiceFilter" onAction="#filter" />
+
+                <Label text="Descrição: " />
+                <TextField fx:id="filtroDescricao" onKeyPressed="#filter" prefWidth="150" />
+            </HBox>
+            <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="1024">
+                <content>
+                    <VBox fx:id="centralBox" maxWidth="1024" spacing="10">
+                        <padding>
+                            <Insets bottom="10" left="30" right="30" top="10" />
+                        </padding>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
     </center>
-    <!-- ... Restante do código ... -->
 </BorderPane>

@@ -1,10 +1,10 @@
-package seu.pacote;
+package org.dev.init;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.dev.control.StageController;
+import org.dev.view.ViewSimpleFactory;
 
 import java.io.IOException;
 
@@ -12,21 +12,21 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // Carrega o arquivo FXML da tela de login
-        Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
 
-        // Cria a cena com a tela de login
-        Scene scene = new Scene(root);
+        StageController.getInstance().setStage(primaryStage);
 
-        // Configura o título da janela
-        primaryStage.setTitle("Tela de Login");
+        primaryStage.setTitle("Software WareHouse");
+        Image iconImage = new Image(getClass().getResourceAsStream("/img/icone2.png"));
+        primaryStage.getIcons().add(iconImage);
 
-        // Define a cena na janela principal e exibe
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.setWidth(util.ScreanSize.getInstance().getWidth());
+        primaryStage.setHeight(util.ScreanSize.getInstance().getHeight());
+
+        ViewSimpleFactory.createView("LOGIN");
+
     }
 
-    public static void main(String[] args) {
-        launch(args);
+    public static void main(String[] args) throws IOException {
+        launch();
     }
 }

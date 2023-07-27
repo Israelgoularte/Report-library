@@ -1,10 +1,9 @@
 package org.dev.control.service.boxCreators;
 
-import javafx.scene.layout.HBox;
-import org.dev.model.LinksModel;
+import javafx.scene.layout.VBox;
 
 // LinksViewFactory.java
 public interface LinksViewFactory {
-    HBox createLinkBox(LinksModel link);
+    void createLinkBox(VBox centralBrox);
 }
 

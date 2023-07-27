@@ -1,35 +1,60 @@
-package org.dev.control;
+package org.dev.control.service;
 
-import org.dev.control.repository.Repository;
-import org.dev.model.LoginModel;
-import org.dev.model.PessoaModel;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.Persistence;
+import org.dev.control.UnitControl;
+import org.dev.control.repository.PessoaRepository;
+import org.dev.control.repository.UserRepository;
+import org.dev.util.HashUtils;
+
+import java.sql.SQLException;
 
 public class UsuarioService {
-    private Repository user;
-    private PessoaModel pessoaModel;
+    private UserRepository user;
+    private PessoaRepository pessoa;
+
+    private static EntityManager entityManager;
 
     private static UsuarioService instance;
 
-    private UsuarioService(){
+    private UsuarioService(EntityManager entityManager){
+        user = new UserRepository(entityManager);
+        pessoa = new PessoaRepository(entityManager);
     }
 
     public static UsuarioService getInstance(){
         if(instance ==  null){
-            instance = new UsuarioService();
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory(UnitControl.getInstance().getUnit());
+            EntityManager em = emf.createEntityManager();
+            entityManager = em;
+            instance = new UsuarioService(entityManager);
         }
         return instance;
     }
 
-    private void carregarPessoa() {
+    public static void closeService(){
+        try{
+            entityManager.close();
+        }catch (NullPointerException e){
 
+        }
+        instance =null;
     }
 
-    public boolean login(String usuario, String senha){
-        LoginModel login = new LoginModel();
-        login.setUsuario(usuario);
-        login.setHashsenha(senha);
+    private void carregarPessoa() throws NoResultException {
         try {
-            this.user.atualizarElemento(login);
+            pessoa.atualizarElemento(String.valueOf(user.getContent().getIdLogin()));
+        } catch (IllegalAccessException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public boolean login(String usuario, String senha) throws NoResultException, SQLException {
+        senha = HashUtils.hashSenha(senha);
+        try {
+            this.user.atualizarElemento(usuario,senha);
             carregarPessoa();
             return true;
         } catch (IllegalAccessException e) {
@@ -37,12 +62,26 @@ public class UsuarioService {
             return false;
         }
     }
-    public Repository<LoginModel,LoginModel> getUser(){
+
+    public void logout() throws IllegalAccessException {
+        this.user.atualizarElemento(null);
+        this.pessoa.atualizarElemento(null);
+    }
+
+    public boolean cadastro(String usuario, String email, String hashSenha, String nome, String dataNascimento)
+            throws IllegalAccessException
+    {
+        this.user.adicionarElemento(usuario,email,hashSenha);
+        this.pessoa.adicionarElemento(String.valueOf(user.getContent().getIdLogin()),nome,dataNascimento);
+        logout();
+        return true;
+    }
+    public UserRepository getUser(){
         return this.user;
     }
 
-    public PessoaModel getPessoaModel(){
-        return this.pessoaModel;
+    public PessoaRepository getPessoa(){
+        return this.pessoa;
     }
 
 

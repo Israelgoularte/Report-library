@@ -1,18 +1,15 @@
-package org.dev.control;
+package org.dev.control.views;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import org.dev.control.service.UsuarioService;
 import org.dev.model.PessoaModel;
+import org.dev.view.ViewSimpleFactory;
 
 import java.net.URL;
-import java.sql.Date;
 import java.util.ResourceBundle;
 
 public class DadosCadastraisController implements Initializable {
@@ -65,13 +62,23 @@ public class DadosCadastraisController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        PessoaModel pm = UsuarioController.getInstance().getPessoaModel();
-        String[] data = String.valueOf(pm.getDataNascimento()).split("-");
-        this.nomeField.setText(pm.getNome());
-        this.diaNascimento.setText(String.valueOf(data[2]));
-        this.mesNascimento.setText(String.valueOf(data[1]));
-        this.anoNascimento.setText(String.valueOf(data[0]));
-        setEditable(false);
+        PessoaModel pm = null;
+        try {
+            pm = UsuarioService.getInstance().getPessoa().getContent();
+            String[] data = String.valueOf(pm.getDataNascimento()).split("-");
+            this.nomeField.setText(pm.getNome());
+            this.diaNascimento.setText(String.valueOf(data[2]));
+            this.mesNascimento.setText(String.valueOf(data[1]));
+            this.anoNascimento.setText(String.valueOf(data[0]));
+            this.email.setText(UsuarioService.getInstance().getUser().getContent().getEmail());
+            setEditable(false);
+        } catch (IllegalAccessException e) {
+            System.out.println(e.getMessage());
+            //ADICIONAR TELA DE ERRO
+        } catch (NullPointerException e){
+            System.out.println(e.getMessage());
+            //ADICIONAR TELA DE ERRO
+        }
     }
 
     public void setEditable(Boolean editable){
@@ -91,14 +98,16 @@ public class DadosCadastraisController implements Initializable {
     }
     @FXML
     private void voltar() {
-        // Lógica para voltar à tela anterior
-        System.out.println("Voltar");
-
+        ViewSimpleFactory.createView("LINKS");
     }
 
     @FXML
     private void sair(){
-        UsuarioController.getInstance().logout();
+        try {
+            UsuarioService.getInstance().logout();
+        } catch (IllegalAccessException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML
@@ -116,30 +125,14 @@ public class DadosCadastraisController implements Initializable {
     }
 
     public void atualizarPessoa(){
-        PessoaModel pm = UsuarioController.getInstance().getPessoaModel();
-        pm.setNome(this.nomeField.getText());
-        pm.setDataNascimento(
-                Date.valueOf(
-                this.anoNascimento.getText()+"-"+this.mesNascimento.getText()+"-"+this.diaNascimento.getText()
-                )
-        );
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("bluewolf-unit");
-        EntityManager em = emf.createEntityManager();
-
-        EntityTransaction tx = em.getTransaction();
-        try{
-            tx.begin();
-            em.merge(pm);
-            tx.commit();
-        }catch (Exception e){
-            e.printStackTrace();
-            if (tx != null && tx.isActive()) {
-                tx.rollback();
-            }
-        }finally {
-            emf.close();
-            em.close();
+        String nome = this.nomeField.getText();
+        String dataNascimento = this.anoNascimento.getText()+"-"+this.mesNascimento.getText()+"-"+this.diaNascimento.getText();
+        try {
+            UsuarioService.getInstance().getUser().atualizarElemento(nome,dataNascimento);
+        } catch (IllegalAccessException e) {
+            System.out.println(e.getMessage());
         }
+
     }
 
     public void atualizarLogin(){
@@ -151,5 +144,8 @@ public class DadosCadastraisController implements Initializable {
     }
 
 
+    public void adicionarLink() {
+        ViewSimpleFactory.createView("ADICIONAR_LINK");
+    }
 }
 

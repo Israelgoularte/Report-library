@@ -1,57 +1,77 @@
-package org.dev.control;
+package org.dev.control.service;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import org.dev.control.UnitControl;
+import org.dev.control.repository.LinksRepository;
 import org.dev.model.LinksModel;
 
 import java.util.List;
 
-public class LinksManager {
+public class LinksService {
 
-    private List<LinksModel> lista = null;
-    private EntityManager entityManager;
+    private final LinksRepository linksRepository;
+    private static  EntityManager entityManager;
+    private static EntityManagerFactory entityManagerFactory;
 
-    public LinksManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    private static LinksService instance;
+
+    public static LinksService getInstance() {
+        if (instance==null){
+            entityManagerFactory = Persistence.createEntityManagerFactory(UnitControl.getInstance().getUnit());
+            entityManager = entityManagerFactory.createEntityManager();
+            LinksRepository rp = new LinksRepository(entityManager);
+            instance = new LinksService(rp);
+        }
+        return instance;
     }
 
-    public List<LinksModel> getLista() {
-        if (lista == null) {
-            // Realize a consulta no banco de dados para obter a lista de links
-            lista = entityManager.createQuery("SELECT a FROM LinksModel a", LinksModel.class)
-                    .getResultList();
+    public static void closeService(){
+        try{
+            entityManager.close();
+            entityManagerFactory.close();
+        }catch (NullPointerException e){
+            //Apenas continue
         }
-        return lista;
+        instance = null;
     }
 
-    public boolean excluirLink(LinksModel link) {
-        try {
-            entityManager.getTransaction().begin();
-            // Antes de remover, verifique se a entidade está gerenciada
-            if (!entityManager.contains(link)) {
-                link = entityManager.merge(link);
-            }
-            entityManager.remove(link);
-            entityManager.getTransaction().commit();
-            lista = null; // Define a lista como null para que seja recarregada no próximo acesso
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            e.printStackTrace();
-            return false;
-        }
+    public LinksService(LinksRepository linksRepository) {
+        this.linksRepository = linksRepository;
     }
 
-    public boolean adicionarLink(LinksModel link) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(link);
-            entityManager.getTransaction().commit();
-            lista = null; // Define a lista como null para que seja recarregada no próximo acesso
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            e.printStackTrace();
-            return false;
-        }
+    public List<LinksModel> getLista(){
+        return linksRepository.getContent();
+    }
+
+    public void excluirLink(LinksModel link) throws IllegalAccessException {
+        linksRepository.excluirElemento(link);
+    }
+
+    public void adicionarLink(String nome,String tipo, String categoria, String descricao, String link) throws IllegalAccessException {
+        LinksModel novoLink = new LinksModel();
+        novoLink.setNome(nome);
+        novoLink.setTipo(tipo);
+        novoLink.setcategoria(categoria);
+        novoLink.setDescricao(descricao);
+        novoLink.setLink(link);
+        linksRepository.adicionarElemento(novoLink);
+    }
+
+    public void atualizarLink(LinksModel linksModel,String nome, String categoria, String link, String descricao) throws IllegalAccessException {
+        linksModel.setNome(nome);
+        linksModel.setcategoria(categoria);
+        linksModel.setLink(link);
+        linksModel.setDescricao(descricao);
+        this.linksRepository.atualizarElemento(linksModel);
+    }
+
+    public List<String> categoriasCadastradas(){
+        return this.linksRepository.selectDistinctInfo("categoria");
+    }
+
+    public List<String> tiposCadastradas(){
+        return this.linksRepository.selectDistinctInfo("tipo");
     }
 }

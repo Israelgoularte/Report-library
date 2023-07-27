@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+            http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <persistence-unit name="Localhost" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>org.dev.model.LoginModel</class>
+        <class>org.dev.model.PessoaModel</class>
+        <class>org.dev.model.LinksModel</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.100.5:5432/bluewolf"/>
+            <property name="javax.persistence.jdbc.user" value="bluewolf"/>
+            <property name="javax.persistence.jdbc.password" value="158943"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.default_schema" value="software_warehouse"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="ElephantSQL" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>org.dev.model.LoginModel</class>
+        <class>org.dev.model.PessoaModel</class>
+        <class>org.dev.model.LinksModel</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://silly.db.elephantsql.com:5432/uznvzfyz"/>
+            <property name="javax.persistence.jdbc.user" value="uznvzfyz"/>
+            <property name="javax.persistence.jdbc.password" value="6cqcJLePTGkwIUC8pA2CryeVG1n6WbLI"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.default_schema" value="software_warehouse"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

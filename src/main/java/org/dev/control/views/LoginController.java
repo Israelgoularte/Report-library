@@ -1,19 +1,14 @@
-package org.dev.control;
+package org.dev.control.views;
 
-import jakarta.persistence.NoResultException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import org.dev.model.LoginModel;
-import org.dev.util.HashUtils;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.dev.view.CadastroView;
-import org.dev.view.DadosCadastraisView;
+import javafx.scene.layout.VBox;
+import org.dev.control.service.AuthenticationTask;
+import org.dev.control.service.boxCreators.ChoiceBDFactory;
+import org.dev.util.ExceptionMensagen;
+import org.dev.util.TruncateDataBase;
 import org.dev.view.ViewSimpleFactory;
 
 import java.io.IOException;
@@ -27,33 +22,70 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField passwordField;
 
-    @FXML
     private Label warning;
 
+    @FXML
+    private VBox warningBox;
+
+    @FXML
+    private ChoiceBox<String> selectServer;
+
+    @FXML
+    private ProgressBar progress;
+
+
+    public LoginController(){
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    login();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                login();
             }
         });
+        warning = new Label();
+        warning.setWrapText(true);
+
+        ChoiceBDFactory.addDataBaseChoices(selectServer);
     }
 
     @FXML
-    public void login() throws IOException {
-        // Lógica para verificar o usuário e senha informados
+    public void login()  {
+        // Antes de iniciar a tarefa, defina a ProgressBar como visível
+        progress.setVisible(true);
+        warningBox.setVisible(true);
+        warningBox.getChildren().remove(warning);
 
-        if(authenticateUser()){
-            ViewSimpleFactory.createView("HOME");
-        }else{
-            warning.setText("Falha na autentificação");
+        AuthenticationTask authenticationTask = new AuthenticationTask(usernameField.getText().toLowerCase(), passwordField.getText(), progress);
+        progress.setStyle("-fx-accent: #e3d70d;");
+
+        authenticationTask.setOnSucceeded(e -> {
+            if (authenticationTask.getValue()) {
+                ViewSimpleFactory.createView("LINKS");
+            } else {
+                progress.setStyle("-fx-accent: #ff0e13;");
+                warning.setText(ExceptionMensagen.simpleMenssage(authenticationTask.getMessage(),"Usuario" ));
+                warningBox.getChildren().add(1,warning);
+                usernameField.setText("");
+                passwordField.setText("");
+                usernameField.requestFocus();
+            }
+        });
+
+        authenticationTask.setOnFailed(e -> {
+            progress.setStyle("-fx-accent: #ff0e13;");
+            warning.setText(ExceptionMensagen.simpleMenssage(authenticationTask.getException().getMessage(), "Usuario"));
+            warningBox.getChildren().add(1,warning);
             usernameField.setText("");
             passwordField.setText("");
-        }
+            usernameField.requestFocus();
+        });
+
+        progress.progressProperty().bind(authenticationTask.progressProperty());
+
+        Thread thread = new Thread(authenticationTask);
+        thread.setDaemon(true); // Define a thread como daemon para que ela não impeça o encerramento da aplicação
+        thread.start();
     }
 
     @FXML
@@ -62,69 +94,9 @@ public class LoginController implements Initializable {
     }
 
     // Método para realizar a autenticação do usuário
-    public boolean authenticateUser() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-        password = HashUtils.hashSenha(password);
-
-        // Obtém uma instância do EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("bluewolf-unit");
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            // Realiza a consulta ao banco de dados para verificar o usuário
-            LoginModel login = em.createQuery("SELECT l FROM LoginModel as l WHERE l.usuario = :username and l.hashsenha = :password", LoginModel.class)
-                    .setParameter("username", username)
-                    .setParameter("password", password)
-                    .getSingleResult();
-            System.out.println(login.getEmail());
-            System.out.println(login.getUsuario());
-            System.out.println(login.getIdLogin());
-
-            // Defina os valores do loginModel com base nos dados retornados do banco de dados
-            UsuarioController.getInstance().setLoginModel(login);
-            return true;
-        } catch (NoResultException e) {
-            // Usuário não encontrado
-            System.out.println("Usuário ou senha incorreto!");
-            return false;
-        } finally {
-            // Feche o EntityManager
-            em.close();
-            emf.close();
-        }
-    }
 
     @FXML
     public void truncade(){
-        // Obtém uma instância do EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("bluewolf-unit");
-        EntityManager em = emf.createEntityManager();
-
-        try {
-            // Inicia uma transação
-            em.getTransaction().begin();
-
-            // Executa a operação de truncagem na tabela principal (user.login)
-            // O cascade irá propagar a operação de truncagem para as tabelas relacionadas com cascata
-            em.createNativeQuery("TRUNCATE TABLE \"user\".login CASCADE").executeUpdate();
-
-            // Comita a transação
-            em.getTransaction().commit();
-
-            System.out.println("Truncagem realizada com sucesso no banco de dados 'user' com cascade.");
-        } catch (Exception e) {
-            // Se ocorrer algum erro, faça rollback na transação
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            System.out.println("Erro ao realizar a truncagem no banco de dados 'user' com cascade: " + e.getMessage());
-        } finally {
-            // Feche o EntityManager
-            em.close();
-            emf.close();
-        }
+        TruncateDataBase.truncade();
     }
-
 }

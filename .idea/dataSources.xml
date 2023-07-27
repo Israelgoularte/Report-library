@@ -15,5 +15,23 @@
       <jdbc-url>jdbc:postgresql://192.168.100.5:5432/bluewolf</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="bluewolf-unit/Hibernate" uuid="8967223b-4551-45f5-9f90-931bc77bee06">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <imported>true</imported>
+      <remarks>Hibernate
+
+C:/Users/israe/Documents/GerentePessoal/programas_uteis/src/main/resources/META-INF/persistence.xml</remarks>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://192.168.100.5:5432/bluewolf</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="postgres@lelephant" uuid="57fa14ba-71a7-421d-a047-f0cd8aa50cdc">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://silly.db.elephantsql.com:5432/uznvzfyz</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

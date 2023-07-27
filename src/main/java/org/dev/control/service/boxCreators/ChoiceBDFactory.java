@@ -1,7 +1,9 @@
-package org.dev.control.service;
+package org.dev.control.service.boxCreators;
 
 import javafx.scene.control.ChoiceBox;
 import org.dev.control.UnitControl;
+import org.dev.control.service.PersistenceController;
+import org.dev.control.service.UsuarioService;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +19,7 @@ import java.util.List;
  * @version 1.0
  * @since 2023-07-23
  */
-public class SelectBDService {
+public class ChoiceBDFactory {
 
     /**
      * Adiciona as opções de unidades de persistência disponíveis em um arquivo persistence.xml a um ChoiceBox
@@ -42,6 +44,7 @@ public class SelectBDService {
             selectServer.setOnAction(e -> {
                 // Define a unidade de persistência selecionada no objeto UnitControl
                 UnitControl.getInstance().setUnit(selectServer.getValue());
+                UsuarioService.closeService();
             });
         } catch (IOException | ParserConfigurationException | SAXException | URISyntaxException e) {
             // Lança uma exceção RuntimeException se ocorrer algum erro ao ler o arquivo persistence.xml

@@ -1,87 +1,154 @@
-package org.dev.control;
+package org.dev.control.views;
 
-import jakarta.persistence.Persistence;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import org.dev.model.LinksModel;
+import org.dev.control.UnitControl;
+import org.dev.control.service.LinksService;
+import org.dev.control.service.UsuarioService;
+import org.dev.control.service.boxCreators.LinksControllerFactory;
+import org.dev.view.ViewSimpleFactory;
 
 import java.net.URL;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
+
 public class LinksController implements Initializable {
+    //Dados
+    //FXML
 
     @FXML
     private VBox centralBox;
 
-    private LinksManager linksManager;
 
-    private List<HBox> linksBloco = new LinkedList<>();
-    public void dadosUsuario(ActionEvent actionEvent) {
+    @FXML
+    private TextField filtroDescricao;
+
+
+    @FXML
+    private ChoiceBox<String> categoriaChoiceFilter;
+
+    @FXML
+    private TextField filtroNome;
+
+
+    @FXML
+    private Menu menu_navegacao;
+
+    @FXML
+    private ChoiceBox<String> tipeChoiceFilter;
+
+    //INTERNOS
+    private LinksControllerFactory lcf;
+
+    public LinksController(){
+        lcf = new LinksControllerFactory();
     }
 
-    public void logout(ActionEvent actionEvent) {
-    }
+    //inicializador
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        linksManager = new LinksManager(Persistence.createEntityManagerFactory("bluewolf-unit").createEntityManager());
-        createLinksBloco();
+
+        loadLinksBox();
+        for (String string :LinksService.getInstance().categoriasCadastradas()) {
+            categoriaChoiceFilter.getItems().add(string);
+        }
+        categoriaChoiceFilter.getItems().add("Todos");
+        categoriaChoiceFilter.setValue("Todos");
+        for (String tipo: LinksService.getInstance().tiposCadastradas()) {
+            this.tipeChoiceFilter.getItems().add(tipo);
+        }
+        tipeChoiceFilter.getItems().add("Todos");
+        tipeChoiceFilter.setValue("Todos");
+    }
+
+    public void loadLinksBox(){
+        lcf.createLinkBox(centralBox);
+        haveContent();
+    }
+
+    //Ações
+    @FXML
+    public void dadosUsuario() {
+        LinksService.closeService();
+        ViewSimpleFactory.createView("DADOS_CADASTRAIS");
+    }
+
+    @FXML
+    public void logout() {
+
+        UsuarioService.closeService();
+        UnitControl.getInstance().setUnit(null);
+        ViewSimpleFactory.createView("LOGIN");
+
+    }
+
+    private void haveContent(){
+        if(centralBox.getChildren().size()==0){
+            Label empity = new Label("Nenhum resultado encontrado");
+            Button btnAdicioanrLink = new Button("Adicionar Link");
+            btnAdicioanrLink.setOnAction(e ->{
+                adicionarLink();
+            });
+            centralBox.getChildren().addAll(empity,btnAdicioanrLink);
+        }
+    }
+
+    @FXML
+    public void adicionarLink() {
+        ViewSimpleFactory.createView("ADICIONAR_LINK");
     }
 
 
+    @FXML
+    public void filter(){
+        lcf.createLinkBoxFiltered(
+                filtroNome.getText(),
+                tipeChoiceFilter.getValue(),
+                categoriaChoiceFilter.getValue(),
+                filtroDescricao.getText(),
+                centralBox
+        );
+        haveContent();
+    }
 
-    public void createLinksBloco(){
-        for (LinksModel link : linksManager.getLista()) {
-            HBox hBox = new HBox();
-            hBox.setSpacing(10);
-            hBox.setPadding(new Insets(10));
-            hBox.setAlignment(Pos.CENTER);
+    @FXML
+    public void filtrarCategoria() {
+        try {
+            lcf.createLinkBoxCategoriaFiltered(categoriaChoiceFilter.getValue(),centralBox);
+            haveContent();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void filtrarDescricao() {
+        try {
+            lcf.createLinkBoxDescricaoFiltered(filtroDescricao.getText(),centralBox);
+            haveContent();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
-            HBox hboxNome = new HBox();
-            hboxNome.setSpacing(5);
-            Label lblNome = new Label("Nome: ");
-            Text nome = new Text(link.getNome());
-
-            HBox hboxDescricao = new HBox();
-            hboxDescricao.setSpacing(5);
-            Label lblDescricao = new Label("Descrição: ");
-            Text descricao = new Text(link.getTipodeprograma());
-
-            HBox hboxDataCricao = new HBox();
-            hboxDataCricao.setSpacing(5);
-            Label lblDataCriacao = new Label("Adicionado em: ");
-            Text dataCriacao = new Text(link.getDataDeCriacao().toString());
-
-            HBox hboxBotoes = new HBox();
-            hboxBotoes.setSpacing(5);
-            Button btnDownload = new Button("Download");
-            btnDownload.setOnAction(e ->{
-
-            });
-
-            Button btnEditar = new Button("Editar");
-            btnEditar.setOnAction(e ->{
-
-            });
-
-            Button btnExcluir = new Button("Excluir");
-            btnExcluir.setOnAction(e ->{
-
-            });
-
-            hBox.getChildren().addAll(hboxNome,hboxDescricao,hboxDataCricao,hboxBotoes);
-
-            centralBox.getChildren().add(hBox);
+    @FXML
+    public void filtrarNome() {
+        try {
+            lcf.createLinkBoxNomeFiltered(filtroNome.getText(),centralBox);
+            haveContent();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void filterTipe() {
+        try {
+            lcf.createLinkBoxCategoriaFiltered(tipeChoiceFilter.getValue(),centralBox);
+            haveContent();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }

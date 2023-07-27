@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+
 @Entity
-@jakarta.persistence.Table(name = "login", schema = "user", catalog = "bluewolf")
+@jakarta.persistence.Table(name = "login")
+
 public class LoginModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -40,6 +42,7 @@ public class LoginModel {
     public String getHashsenha() {
         return hashsenha;
     }
+
 
     public void setHashsenha(String hashsenha) {
         this.hashsenha = hashsenha;
@@ -81,4 +84,5 @@ public class LoginModel {
     public int hashCode() {
         return Objects.hash(idLogin, usuario, hashsenha, email, dataCadastro);
     }
+
 }

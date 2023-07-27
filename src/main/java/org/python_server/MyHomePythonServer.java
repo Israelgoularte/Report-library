@@ -5,23 +5,23 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-public class Client {
+public class MyHomePythonServer {
 
     private static final String CONFIG_FILE = "config.xml";
 
-    public static void main(String[] args) throws IOException {
+    private MyHomePythonServer(){}
+
+    public static void Start(String comando) throws IOException {
         ServerInfo serverInfo = loadServerInfo();
 
         String serverIp = serverInfo.getServerIp();
         int serverPort = serverInfo.getServerPort();
 
-        if (args.length > 0) {
+        if (comando !=null) {
             Socket socket = new Socket(serverIp, serverPort);
             OutputStream out = socket.getOutputStream();
             InputStream in = socket.getInputStream();
-            String[] commandos = args[0].split(",");
-
-            System.out.println(args[0]);
+            String[] commandos = comando.split(",");
             // Send command to server
             switch (commandos[0]) {
                 case "exibir":
@@ -32,15 +32,13 @@ public class Client {
                     break;
                 case "salvar":
                     salvar(commandos[1], out);
-                    Client.main(new String[] {"exibir"});
+                    Start("exibir");
                     break;
                 default:
                     System.out.println("comando invalido!");
                     socket.close();
                     System.exit(1);
             }
-
-
             socket.close();
         } else {
             System.out.println("No Arqs");

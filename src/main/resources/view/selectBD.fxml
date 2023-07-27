@@ -1,56 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <BorderPane id="login" styleClass="root" stylesheets="@css/basicStyle.css"
             xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.dev.control.views.LoginController">
+            fx:controller="org.dev.control.views.SelectBDController">
 
     <center>
-        <HBox fx:id="loginbox" alignment="CENTER_LEFT" >
+        <HBox  alignment="CENTER_LEFT" >
         <padding>
             <Insets topRightBottomLeft="20"/>
         </padding>
-        <VBox alignment="CENTER" spacing="20" styleClass="vbox-background" maxWidth="250" maxHeight="200">
+        <VBox fx:id="selectbox" alignment="CENTER" spacing="20" styleClass="vbox-background" maxWidth="250" maxHeight="200">
             <padding>
                 <Insets topRightBottomLeft="20" />
             </padding>
-            <Label fx:id="warning" />
-            <HBox maxWidth="220" styleClass="hbox-background">
-                <Label text="Usuário:" minWidth="70"/>
-                <TextField fx:id="usernameField" prefWidth="150" />
-            </HBox>
-            <HBox maxWidth="220" styleClass="hbox-background">
-                <Label text="Senha:"  minWidth="70"/>
-                <PasswordField fx:id="passwordField" prefWidth="150" />
-            </HBox>
-            <HBox maxWidth="220 " spacing="10" styleClass="hbox-background">
-                <Button fx:id="loginButton" mnemonicParsing="false" onAction="#login" text="Login" />
-                <Button fx:id="signupButton" mnemonicParsing="false" onAction="#signup" text="Cadastre-se" />
-                <!--
-                <Button fx:id="truncade" onAction="#truncade" text="TRU"/>
-                -->
-            </HBox>
+            <Label text="Bancos de Dados Disponiveis:" wrapText="true"/>
+            <ChoiceBox fx:id="selectServer"/>
+            <Button fx:id="confirm" mnemonicParsing="false" onAction="#confirm" text="Confirmar" />
         </VBox>
         </HBox>
     </center>
-    <right>
-        <VBox alignment="CENTER_RIGHT">
-            <VBox fx:id="serverBox" alignment="CENTER" spacing="20" styleClass="vbox-background" maxWidth="250" maxHeight="200">
-                <padding>
-                    <Insets topRightBottomLeft="20" />
-                </padding>
-            </VBox>
-        </VBox>
-    </right>
 </BorderPane>

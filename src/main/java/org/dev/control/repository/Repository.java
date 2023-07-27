@@ -1,14 +1,18 @@
-package org.dev.control;
+package org.dev.control.repository;
 
-import java.util.List;
+import jakarta.persistence.EntityManager;
 
-public interface Repository<T> {
-    public List<T> getList();
+public abstract class  Repository<T,E> {
+    protected EntityManager entityManager;
 
-    public boolean excluirElemento(T elemento);
+    public Repository(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
+    public abstract T getContent() throws IllegalAccessException;
+    public abstract void excluirElemento(E ...elemento) throws IllegalAccessException;
+    public abstract void adicionarElemento(E ...elemento) throws IllegalAccessException;
+    public abstract void atualizarElemento(E ...elemento) throws IllegalAccessException;
 
-    public boolean adicionarElemento(T elemento);
 
-    public boolean atualizarElemento(T elemento);
-    
+
 }

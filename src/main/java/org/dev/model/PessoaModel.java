@@ -6,7 +6,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@jakarta.persistence.Table(name = "pessoa", schema = "user", catalog = "bluewolf")
+@jakarta.persistence.Table(name = "pessoa")
 public class PessoaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -69,4 +69,5 @@ public class PessoaModel {
     public int hashCode() {
         return Objects.hash(idPessoa, nome, dataNascimento, idLogin);
     }
+
 }
