@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="60201370-8d73-409a-bcd5-fe5b7d058b3b" name="DDL data source Mapping">
+      <data-sources db="57fa14ba-71a7-421d-a047-f0cd8aa50cdc" ddl="009257ec-df97-4b1a-bfde-2198bf4dec66" />
+      <scope>
+        <node kind="database" qname="uznvzfyz">
+          <node kind="schema" negative="1" />
+        </node>
+      </scope>
+    </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="009257ec-df97-4b1a-bfde-2198bf4dec66" />
+          <option name="name" value="swh" />
+          <option name="dbmsName" value="POSTGRES" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/src/main/resources/DDL" />
+            </array>
+          </option>
+          <option name="outPath" value="C:\Users\israe\Documents\GerentePessoal\programas_uteis\src\main\resources\DDL" />
+          <option name="outLayout" value="File per object by schema and database.groovy" />
+          <option name="scriptOptions">
+            <map>
+              <entry key="CreateIfNotExists" value="1" />
+              <entry key="CreateOrReplace" value="1" />
+              <entry key="Owner" value="1" />
+            </map>
+          </option>
+        </State>
+      </list>
+    </option>
+  </component>
+</project>

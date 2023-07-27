@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane stylesheets="@css/basicStyle.css"
+            xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.dev.control.views.LinksController">
+    <!-- ... Restante do código ... -->
+    <top>
+        <HBox fx:id="topBox" styleClass="vbox-background" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                <MenuBar prefHeight="26.0" prefWidth="163.0">
+                    <Menu text="Navegação">
+                        <Menu fx:id="menu_Disponiveis" text="Disponiveis" />
+                        <MenuItem text="Visualizar" />
+                        <MenuItem text="Editar" />
+                    </Menu>
+                    <Menu text="Help">
+
+                    </Menu>
+                </MenuBar>
+            </HBox>
+            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                <Label alignment="CENTER" prefHeight="26.0" prefWidth="295.0" text="Aplicativos" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="16.0" />
+                    </font>
+                </Label>
+
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                <MenuBar prefHeight="26.0" prefWidth="165.0">
+                    <Menu text="Usuario">
+                        <MenuItem onAction="#dadosUsuario" text="Dados do Usuario" />
+                        <MenuItem onAction="#logout" text="Sair" />
+                    </Menu>
+                </MenuBar>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" maxWidth="1200">
+            <content>
+                <VBox fx:id="centralBox" maxWidth="1200" spacing="10">
+                    <padding>
+                        <Insets bottom="10" left="30" right="30" top="10" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+    <!-- ... Restante do código ... -->
+</BorderPane>
