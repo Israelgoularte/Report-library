@@ -3,56 +3,47 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane stylesheets="@css/basicStyle.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.views.CadastroController">
+<BorderPane stylesheets="@css/cadastro.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.views.CadastroController">
     <left>
-        <VBox alignment="CENTER_LEFT">
-        <padding>
-            <Insets topRightBottomLeft="20" />
-        </padding>
-            <VBox fx:id="centerbox" alignment="CENTER" maxWidth="350" spacing="20" styleClass="vbox-background">
-                <padding>
-                    <Insets topRightBottomLeft="20" />
-                </padding>
-            <Label alignment="TOP_CENTER" text="Cadastro" />
-            <HBox alignment="CENTER" spacing="10">
-               <children>
-                  <Label prefWidth="100.0" styleClass="titulo" text="DataBase:" />
-                  <ChoiceBox prefWidth="200.0" fx:id="selectServer"/>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" spacing="10">
-                <Label prefWidth="100.0" styleClass="titulo" text="Usuario" />
-                <TextField fx:id="usuarioField" prefWidth="200.0" promptText="Nome" />
-            </HBox>
-            <HBox alignment="CENTER" spacing="10">
-                <Label prefWidth="100.0" styleClass="titulo" text="Email" />
-                <TextField fx:id="emailField" prefWidth="200.0" promptText="Email" />
+        <VBox styleClass="adjust-box">
+            <VBox fx:id="centerbox"  styleClass="medium-box">
+                <Label text="Cadastro" styleClass="label-title"/>
+                <HBox styleClass="comum-box">
+                   <children>
+                      <Label prefWidth="100.0" styleClass="titulo" text="DataBase:" />
+                      <ChoiceBox prefWidth="200.0" fx:id="selectServer"/>
+                   </children>
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Label prefWidth="100.0" styleClass="titulo" text="Usuario" />
+                    <TextField fx:id="usuarioField" prefWidth="200.0" promptText="Usuario" />
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Label prefWidth="100.0" styleClass="titulo" text="Email" />
+                    <TextField fx:id="emailField" prefWidth="200.0" promptText="Email" />
 
-            </HBox>
-            <HBox alignment="CENTER" spacing="10">
-                <Label prefWidth="100.0" styleClass="titulo" text="Senha" />
-                <PasswordField fx:id="senhaField" prefWidth="200.0" promptText="Senha" />
-            </HBox>
-            <HBox alignment="CENTER" spacing="10">
-                <Label prefWidth="100.0" styleClass="titulo" text="Nome" />
-                <TextField fx:id="nomeField" prefWidth="200.0" promptText="Nome" />
-            </HBox>
-            <HBox alignment="CENTER" spacing="10">
-                <Label prefWidth="150.0" styleClass="titulo" text="Data De Nascimento" />
-                <TextField fx:id="diaNascimento" prefWidth="60.0" promptText="Dia" />
-                <TextField fx:id="mesNascimento" prefWidth="60.0" promptText="Mes" />
-                <TextField fx:id="anoNascimento" prefWidth="60.0" promptText="Ano" />
-            </HBox>
-            <HBox alignment="CENTER" spacing="10">
-                <Button onAction="#voltar" text="Cancelar" />
-                <Button onAction="#cadastrar" text="Cadastrar" />
-            </HBox>
-        </VBox>
-            <VBox fx:id="warningBox" visible="false" alignment="CENTER" styleClass="vbox-background" spacing="10">
-                <padding>
-                    <Insets topRightBottomLeft="10"/>
-                </padding>
-                <ProgressBar prefHeight="20.0" prefWidth="200.0" progress="0.0" fx:id="progress" visible="false"/>
+                </HBox>
+                    <HBox styleClass="comum-box">
+                    <Label prefWidth="100.0" styleClass="titulo" text="Senha" />
+                    <PasswordField fx:id="senhaField" prefWidth="200.0" promptText="Senha" />
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Label prefWidth="100.0" styleClass="titulo" text="Nome" />
+                    <TextField fx:id="nomeField" prefWidth="200.0" promptText="Nome" />
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Label prefWidth="150.0" styleClass="titulo" text="Data De Nascimento" />
+                    <TextField fx:id="diaNascimento" prefWidth="60.0" promptText="Dia" />
+                    <TextField fx:id="mesNascimento" prefWidth="60.0" promptText="Mes" />
+                    <TextField fx:id="anoNascimento" prefWidth="60.0" promptText="Ano" />
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Button onAction="#voltar" text="Cancelar" />
+                    <Button onAction="#cadastrar" text="Cadastrar" />
+                </HBox>
+            </VBox>
+            <VBox fx:id="warningBox" visible="false" styleClass="medium-box">
+                    <ProgressBar progress="0.0" fx:id="progress" visible="false"/>
             </VBox>
         </VBox>
     </left>

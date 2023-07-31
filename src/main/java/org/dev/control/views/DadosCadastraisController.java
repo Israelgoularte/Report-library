@@ -3,9 +3,11 @@ package org.dev.control.views;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import org.dev.control.service.UsuarioService;
+import org.dev.control.service.boxCreators.MenuNavegacaoFactory;
 import org.dev.model.PessoaModel;
 import org.dev.view.ViewSimpleFactory;
 
@@ -25,46 +27,18 @@ public class DadosCadastraisController implements Initializable {
     private TextField anoNascimento;
 
     @FXML
-    private TextField cep;
-
-    @FXML
-    private TextField rua;
-
-    @FXML
-    private TextField numero;
-
-    @FXML
-    private TextField complemento;
-
-    @FXML
-    private TextField bairro;
-
-    @FXML
-    private TextField cidade;
-
-    @FXML
-    private TextField estado;
-
-    @FXML
-    private TextField pais;
-
-    @FXML
     private TextField email;
-
-    @FXML
-    private Button voltarButton;
-
-    @FXML
-    private Button editarCadastroButton;
 
     @FXML
     private HBox buttonBox;
 
+    @FXML
+    private Menu links_menu;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        PessoaModel pm = null;
         try {
-            pm = UsuarioService.getInstance().getPessoa().getContent();
+            PessoaModel pm = UsuarioService.getInstance().getPessoa().getContent();
             String[] data = String.valueOf(pm.getDataNascimento()).split("-");
             this.nomeField.setText(pm.getNome());
             this.diaNascimento.setText(String.valueOf(data[2]));
@@ -79,6 +53,8 @@ public class DadosCadastraisController implements Initializable {
             System.out.println(e.getMessage());
             //ADICIONAR TELA DE ERRO
         }
+        MenuNavegacaoFactory.createMenu(links_menu);
+
     }
 
     public void setEditable(Boolean editable){
@@ -86,14 +62,6 @@ public class DadosCadastraisController implements Initializable {
         this.diaNascimento.setEditable(editable);
         this.mesNascimento.setEditable(editable);
         this.anoNascimento.setEditable(editable);
-        this.cep.setEditable(editable);
-        this.rua.setEditable(editable);
-        this.numero.setEditable(editable);
-        this.bairro.setEditable(editable);
-        this.cidade.setEditable(editable);
-        this.estado.setEditable(editable);
-        this.complemento.setEditable(editable);
-        this.pais.setEditable(editable);
         this.email.setEditable(editable);
     }
     @FXML

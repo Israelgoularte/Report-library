@@ -59,12 +59,22 @@ public class LinksService {
         linksRepository.adicionarElemento(novoLink);
     }
 
-    public void atualizarLink(LinksModel linksModel,String nome, String categoria, String link, String descricao) throws IllegalAccessException {
+    public void atualizarLink(LinksModel linksModel,String nome,String tipo, String categoria, String link, String descricao){
+        String[] oldValues = {linksModel.getNome(),linksModel.getTipo(),linksModel.getcategoria(),linksModel.getLink(),linksModel.getDescricao()};
         linksModel.setNome(nome);
+        linksModel.setTipo(tipo);
         linksModel.setcategoria(categoria);
         linksModel.setLink(link);
         linksModel.setDescricao(descricao);
-        this.linksRepository.atualizarElemento(linksModel);
+        try{
+            this.linksRepository.atualizarElemento(linksModel);
+        }catch (Exception e){
+            linksModel.setNome(oldValues[0]);
+            linksModel.setTipo(oldValues[1]);
+            linksModel.setcategoria(oldValues[2]);
+            linksModel.setLink(oldValues[3]);
+            linksModel.setDescricao(oldValues[4]);
+        }
     }
 
     public List<String> categoriasCadastradas(){

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.dev.control.views.EditarReportController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@css/editarReport.css">
+            <VBox styleClass="medium-box">
+                <HBox styleClass="comum-box">
+                    <Label styleClass="label-title" text="Nome"/>
+                    <TextField fx:id="tfNome"/>
+                </HBox>
+                <HBox fx:id="boxTipo" styleClass="comum-box">
+                    <Label styleClass="label-title" text="Tipo"/>
+                    <ChoiceBox fx:id="tfTipo"/>
+                </HBox>
+                <HBox fx:id="boxCategoria" styleClass="comum-box">
+                    <Label styleClass="label-title" text="Categoria"/>
+                    <ChoiceBox fx:id="tfCategoria"/>
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Label styleClass="label-title" text="Link"/>
+                    <TextField fx:id="tfLink"/>
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <Label styleClass="label-title" text="Descricao"/>
+                    <TextArea fx:id="taDescricao"/>
+                </HBox>
+                <HBox styleClass="comum-box">
+                    <HBox styleClass="radio-box" maxWidth="220">
+                        <Button prefWidth="100" fx:id="novoLink" mnemonicParsing="false" onAction="#salvarAlteracao" text="Salvar" />
+                        <Button prefWidth="100" fx:id="limparNovoLink" mnemonicParsing="false" onAction="#voltar" text="Voltar" />
+                    </HBox>
+                </HBox>
+                <VBox fx:id="warningBox" styleClass="medium-box" visible="false">
+                    <ProgressBar progress="0.0" fx:id="progress" visible="false"/>
+                </VBox>
+            </VBox>
+</AnchorPane>

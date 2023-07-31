@@ -59,6 +59,7 @@ public class CadastroController implements Initializable {
 
         warning = new Label();
         warning.setWrapText(true);
+        warning.getStyleClass().add("label-warning");
 
         centerbox.setMaxHeight(400);
 

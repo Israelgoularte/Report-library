@@ -1,42 +1,33 @@
 package org.dev.init;
+import javafx.application.Application;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import org.dev.control.StageController;
+import org.dev.view.ViewSimpleFactory;
 
-public class Mmmm {
-    public static void main(String[] args) {
+import java.io.IOException;
 
-        String x = "Ola";
-        String x2 =null;
-        String x3 = "";
-        String x4 = "Mundo";
 
-        String[] s = checkString(x,x2,x3,x4);
+public class Mmmm extends Application {
+            @Override
+            public void start(Stage primaryStage) throws IOException, InterruptedException {
+                StageController.getInstance().setStage(primaryStage);
 
-        System.out.println(x);
-        System.out.println(x2);
-        System.out.println(x3);
-        System.out.println(x4);
-        System.out.println();
-        for (String ss :
-                s) {
-            System.out.println(ss);
-        }
-        }
+                primaryStage.setTitle("Software WareHouse");
+                Image iconImage = new Image(getClass().getResourceAsStream("/view/css/img/icone2.png"));
+                primaryStage.getIcons().add(iconImage);
 
-        public static String[] checkString(String ...s){
-            for (int i = 0; i < s.length; i++) {
-                if(s[i]==null){
-                    s[i]="novaString";
-                }
+                primaryStage.setWidth(util.ScreanSize.getInstance().getWidth());
+                primaryStage.setHeight(util.ScreanSize.getInstance().getHeight());
+
+                ViewSimpleFactory.createView("DADOS_CADASTRAIS");
+
             }
-            return s;
-        }
-//        for (MenuItem sub :
-//                subMenus) {
-//            System.out.println(sub.getText() + " - " + sub.getId());
-//        }
-//
-//        List<MenuItem> LISTA = subMenus.stream().toList();
-//
-//        for (MenuItem sub: LISTA){
-//            System.out.println("Lista: "+ sub.getId());
-//        }
-}
+
+            public static void main(String[] args) throws IOException {
+                launch();
+            }
+
+
+    }
+

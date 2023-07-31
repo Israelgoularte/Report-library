@@ -31,6 +31,7 @@ public class UsuarioService {
             entityManager = em;
             instance = new UsuarioService(entityManager);
         }
+
         return instance;
     }
 

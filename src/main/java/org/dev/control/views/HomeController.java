@@ -8,13 +8,14 @@ import org.dev.control.UnitControl;
 import org.dev.control.service.LinksService;
 import org.dev.control.service.UsuarioService;
 import org.dev.control.service.boxCreators.LinksControllerFactory;
+import org.dev.control.service.boxCreators.MenuNavegacaoFactory;
 import org.dev.view.ViewSimpleFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class LinksController implements Initializable {
+public class HomeController implements Initializable {
     //Dados
     //FXML
 
@@ -34,7 +35,7 @@ public class LinksController implements Initializable {
 
 
     @FXML
-    private Menu menu_navegacao;
+    private Menu menu_links;
 
     @FXML
     private ChoiceBox<String> tipeChoiceFilter;
@@ -42,7 +43,7 @@ public class LinksController implements Initializable {
     //INTERNOS
     private LinksControllerFactory lcf;
 
-    public LinksController(){
+    public HomeController(){
         lcf = new LinksControllerFactory();
     }
 
@@ -62,6 +63,8 @@ public class LinksController implements Initializable {
         }
         tipeChoiceFilter.getItems().add("Todos");
         tipeChoiceFilter.setValue("Todos");
+
+        MenuNavegacaoFactory.createMenu(menu_links);
     }
 
     public void loadLinksBox(){
@@ -88,6 +91,7 @@ public class LinksController implements Initializable {
     private void haveContent(){
         if(centralBox.getChildren().size()==0){
             Label empity = new Label("Nenhum resultado encontrado");
+            empity.getStyleClass().add("label-alerta");
             Button btnAdicioanrLink = new Button("Adicionar Link");
             btnAdicioanrLink.setOnAction(e ->{
                 adicionarLink();

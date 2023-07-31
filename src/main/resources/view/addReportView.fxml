@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<BorderPane stylesheets="@css/addReport.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.dev.control.views.addReportController">
+    <!-- ... Restante do código ... -->
+    <top>
+        <HBox fx:id="topBox" styleClass="medium-box" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" HBox.hgrow="SOMETIMES">
+                <MenuBar>
+                    <Menu fx:id="menu_navegacao" text="Navegação">
+                        <MenuItem text="Inicio" onAction="#linksPage"/>
+                        <Menu text="Acessar Links" fx:id="links_menu"/>
+
+                    </Menu>
+                    <Menu text="Help">
+                        <MenuItem text="Em breve!"/>
+                    </Menu>
+                </MenuBar>
+            </HBox>
+            <HBox styleClass="comum-box" HBox.hgrow="ALWAYS">
+                <Label  text="Report Library" styleClass="label-title" />
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="SOMETIMES">
+                <MenuBar>
+                    <Menu text="Usuario">
+                        <MenuItem onAction="#dadosUsuario" text="Dados do Usuario" />
+                        <MenuItem onAction="#logout" text="Sair" />
+                    </Menu>
+                </MenuBar>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <BorderPane styleClass="main-box">
+            <center>
+                <VBox styleClass="medium-box">
+                    <HBox>
+                        <VBox styleClass="radio-box"  HBox.hgrow="ALWAYS">
+                            <Label styleClass="label-title" text="Adicionar Link" />
+                        </VBox>
+                    </HBox>
+                    <VBox styleClass="comum-box" >
+                        <HBox styleClass="comum-box" >
+                            <Label styleClass="label-title" text="Nome:" />
+                            <TextField fx:id="nomeField"  />
+                        </HBox>
+                        <HBox fx:id="tipoBox" styleClass="comum-box">
+                            <Label styleClass="label-title" text="Tipo:" />
+                            <ChoiceBox fx:id="tipoChoice" onAction="#checkTipoChoice"/>
+                        </HBox>
+                        <HBox fx:id="categoriaBox" styleClass="comum-box">
+                            <Label styleClass="label-title" text="Categoria:"  />
+                            <ChoiceBox fx:id="categoriaChoice" onAction="#checkCategoriaChoice"/>
+                        </HBox>
+                        <HBox styleClass="comum-box">
+                            <Label styleClass="label-title" text="Link:" />
+                            <TextField fx:id="linkField" />
+                        </HBox>
+                        <HBox styleClass="comum-box">
+                            <Label text="Descrição:" styleClass="label-title"/>
+                            <TextArea fx:id="descricaoField" />
+                        </HBox>
+                    </VBox>
+                    <HBox styleClass="comum-box">
+                        <HBox styleClass="radio-box" maxWidth="220">
+                            <Button prefWidth="100" fx:id="novoLink" mnemonicParsing="false" onAction="#saveNovoLink" text="Salvar" />
+                            <Button prefWidth="100" fx:id="limparNovoLink" mnemonicParsing="false" onAction="#limparNovoLink" text="Limpar" />
+                        </HBox>
+                    </HBox>
+                    <VBox fx:id="warningBox" styleClass="medium-box" visible="false">
+                        <ProgressBar progress="0.0" fx:id="progress" visible="false"/>
+                    </VBox>
+                </VBox>
+            </center>
+            <bottom>
+
+            </bottom>
+        </BorderPane>
+    </center>
+</BorderPane>

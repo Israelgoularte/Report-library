@@ -15,7 +15,7 @@ public class ViewSimpleFactory {
         try {
             BorderPane root = vf.createRoot();
             // Carregue a imagem corretamente usando getResourceAsStream
-            Image img = new Image(ViewSimpleFactory.class.getResourceAsStream("/img/fundo2.png"));
+            Image img = new Image(ViewSimpleFactory.class.getResourceAsStream("/view/css/img/fundo1.png"));
             BackgroundImage backgroundImage = new BackgroundImage(
                     img,
                     BackgroundRepeat.NO_REPEAT,

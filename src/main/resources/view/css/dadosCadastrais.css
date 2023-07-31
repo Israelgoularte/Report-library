@@ -1,0 +1,22 @@
+@import "styles/root_Style.css";
+@import "styles/box_Style.css";
+@import "styles/label_Style.css";
+@import "styles/button_Style.css";
+@import "styles/texteField_Style.css";
+@import "styles/menuBar_Style.css";
+@import "styles/tabPane_Style.css";
+@import "styles/scrollPane_Style.css";
+
+.main-box{
+    -fx-alignment: center;
+    -fx-max-width: 600;
+    -fx-spacing: 40;
+}
+.text-field{
+    -fx-min-width: 400;
+}
+
+.text-field-data{
+    -fx-min-width: 60;
+    -fx-max-width: 60;
+}

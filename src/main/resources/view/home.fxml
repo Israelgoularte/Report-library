@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import java.lang.String?>
+<BorderPane stylesheets="@css/home.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.views.HomeController">
+    <top>
+        <HBox fx:id="topBox" styleClass="medium-box" HBox.hgrow="ALWAYS">
+            <HBox alignment="CENTER_LEFT" HBox.hgrow="SOMETIMES">
+                <MenuBar>
+                    <Menu fx:id="menu_navegacao" text="Navegação">
+                        <MenuItem text="Novo Link" onAction="#adicionarLink"/>
+                        <Menu text="Acessar Links" fx:id="menu_links"/>
+                    </Menu>
+                    <Menu text="Help">
+                        <MenuItem text="Em breve!"/>
+                    </Menu>
+                </MenuBar>
+            </HBox>
+            <HBox styleClass="comum-box" HBox.hgrow="ALWAYS">
+                <Label styleClass="label-title" text="Report Library"/>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" HBox.hgrow="SOMETIMES">
+                <MenuBar>
+                    <Menu text="Usuario">
+                        <MenuItem onAction="#dadosUsuario" text="Dados do Usuario" />
+                        <MenuItem onAction="#logout" text="Sair" />
+                    </Menu>
+                </MenuBar>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <VBox styleClass="main-box" VBox.vgrow="ALWAYS">
+            <Label text="Filtros " styleClass="label-title" />
+            <HBox styleClass="medium-box" >
+                <Label text="Nome: " />
+                <TextField fx:id="filtroNome" onKeyPressed="#filter" prefWidth="150" />
+
+                <Label text="Tipo: " />
+                <ChoiceBox fx:id="tipeChoiceFilter" onAction="#filter" />
+
+                <Label text="Categoria: " />
+                <ChoiceBox fx:id="categoriaChoiceFilter" onAction="#filter" />
+
+                <Label text="Descrição: " />
+                <TextField fx:id="filtroDescricao" onKeyPressed="#filter" prefWidth="150" />
+            </HBox>
+            <ScrollPane>
+                <content>
+                    <VBox fx:id="centralBox" styleClass="comum-box">
+
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

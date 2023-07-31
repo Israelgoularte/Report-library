@@ -1,0 +1,99 @@
+.titled-pane .title{
+    -fx-background-color: -cor_box_gradient_p; /* Defina a cor desejada para o VBox */
+    -fx-spacing: 10.0;
+    -fx-padding: 10.0;
+    -fx-start-margin: 10;
+    -fx-border-color: -cor_borda;
+    -fx-alignment: center;
+}
+
+.titled-pane .content{
+    -fx-background-color: -cor_box_gradient_p; /* Defina a cor desejada para o VBox */
+    -fx-spacing: 10.0;
+    -fx-padding: 10.0;
+    -fx-start-margin: 10;
+    -fx-border-color: -cor_borda;
+    -fx-alignment: center;
+}
+
+.card .label{
+    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+
+.card-label-title{
+    -fx-font-size: 18px;
+    -fx-alignment: center-left;
+    -fx-max-width: 200;
+    -fx-wrap-text: true;
+    -fx-min-width: 200;
+}
+
+.card-descricao{
+    -fx-fill: -cor_text;
+    -fx-font-size: 14px;
+}
+
+.card-left{
+    -fx-alignment: center-left;
+}
+.card-mid{
+    -fx-alignment: center;
+    -fx-spacing: 30;
+
+}
+.card-right{
+    -fx-alignment: center-right;
+}
+
+.card-title-box{
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-padding: 10;
+}
+
+.card-center-box{
+    -fx-alignment: center;
+}
+
+.card-top-box{
+    -fx-alignment: center-right;
+}
+
+.card-bottom-box{
+    -fx-alignment: center-right;
+}
+
+.card-button-acessar{
+    -fx-background-color: -cor_positiva;
+}
+
+.card-button-acessar:hover{
+    -fx-background-color: -cor_positiva_hover;
+}
+
+.card-button-acessar:pressed{
+    -fx-background-color: -cor_positiva_pressed;
+}
+
+.card-button-excluir{
+    -fx-background-color: -cor_atencao;
+    -fx-min-width: 60;
+
+}
+
+.card-button-excluir:hover{
+    -fx-background-color: -cor_atencao_hover;
+}
+
+.card-button-excluir:pressed{
+    -fx-background-color: -cor_atencao_pressed;
+
+}
+
+.card-button-editar{
+    -fx-min-width: 60;
+}
+
+
+

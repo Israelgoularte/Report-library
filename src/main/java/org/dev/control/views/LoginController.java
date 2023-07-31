@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import org.dev.control.service.AuthenticationTask;
 import org.dev.control.service.boxCreators.ChoiceBDFactory;
+import org.dev.util.ClipboardCopy;
 import org.dev.util.ExceptionMensagen;
 import org.dev.util.TruncateDataBase;
 import org.dev.view.ViewSimpleFactory;
@@ -33,6 +34,8 @@ public class LoginController implements Initializable {
     @FXML
     private ProgressBar progress;
 
+    @FXML
+    private Label teste;
 
     public LoginController(){
     }
@@ -45,8 +48,25 @@ public class LoginController implements Initializable {
         });
         warning = new Label();
         warning.setWrapText(true);
+        warning.getStyleClass().add("label-warning");
 
         ChoiceBDFactory.addDataBaseChoices(selectServer);
+
+
+        ContextMenu cm = new ContextMenu();
+        MenuItem copi = new MenuItem("Copiar");
+        copi.setOnAction(e ->{
+            String textToCopy = teste.getText();
+            ClipboardCopy.copyToClipboard(textToCopy);
+        });
+
+        teste.setContextMenu(cm);
+        teste.setOnMouseClicked(e->{
+            if(e.getButton().name().equalsIgnoreCase("SECONDARY")){
+                String textToCopy = teste.getText();
+                ClipboardCopy.copyToClipboard(textToCopy);
+            }
+        });
     }
 
     @FXML
@@ -61,7 +81,7 @@ public class LoginController implements Initializable {
 
         authenticationTask.setOnSucceeded(e -> {
             if (authenticationTask.getValue()) {
-                ViewSimpleFactory.createView("LINKS");
+                ViewSimpleFactory.createView("HOME");
             } else {
                 progress.setStyle("-fx-accent: #ff0e13;");
                 warning.setText(ExceptionMensagen.simpleMenssage(authenticationTask.getMessage(),"Usuario" ));
@@ -79,13 +99,14 @@ public class LoginController implements Initializable {
             usernameField.setText("");
             passwordField.setText("");
             usernameField.requestFocus();
+
         });
 
         progress.progressProperty().bind(authenticationTask.progressProperty());
-
         Thread thread = new Thread(authenticationTask);
         thread.setDaemon(true); // Define a thread como daemon para que ela não impeça o encerramento da aplicação
         thread.start();
+
     }
 
     @FXML

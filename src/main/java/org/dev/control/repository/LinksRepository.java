@@ -67,6 +67,7 @@ public class LinksRepository extends Repository<List<LinksModel>, LinksModel> {
             } catch (Exception e) {
                 ts.rollback();
                 e.printStackTrace();
+                throw e;
             }
         }
     }

@@ -1,0 +1,21 @@
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: -cor_text;
+    -fx-alignment: center-right;
+    -fx-font-family: -font_family;
+}
+
+.label-title{
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+}
+
+.label-warning{
+    -fx-text-fill: -cor_atencao_pressed;
+    -fx-font-weight: bold;
+}
+
+.label-alerta{
+    -fx-text-fill: -cor_alerta_pressed;
+    -fx-font-weight: bold;
+}

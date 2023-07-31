@@ -1,0 +1,11 @@
+.scroll-pane{
+    -fx-background-color: -cor_transparent;
+    -fx-fit-to-height: true;
+    -fx-fit-to-width: true;
+    -fx-hbar-policy: never;
+    -fx-vbar-policy: never;
+}
+
+.scroll-pane .viewport{
+    -fx-background-color: -cor_transparent;
+}

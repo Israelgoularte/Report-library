@@ -2,13 +2,13 @@ package org.dev.view;
 
 public enum ConstantsView {
 
-    ADICIONAR_LINK(new AdicionarLinksView()),
-    SELECT_BD(new SelectBDView()),
+    ADICIONAR_LINK(new addReportView()),
+
+    EDITAR_REPORT(new EditarReportView()),
     LOGIN(new LoginView()),
     CADASTRO(new CadastroView()),
-    CADASTRO_PESSOA(new CadastroPessoaView()),
     DADOS_CADASTRAIS(new DadosCadastraisView()),
-    LINKS(new LinksView());
+    HOME(new HomeView());
 
 
     private ViewInterface vf;

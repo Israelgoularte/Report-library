@@ -5,10 +5,12 @@ import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
 
-public class CadastrarNovoLinksView implements ViewInterface{
+public class EditarReportView implements ViewInterface {
+
+
     @Override
     public BorderPane createRoot() throws IOException {
-        BorderPane root = FXMLLoader.load(getClass().getResource("/view/cadastrarNovoLinksView.fxml"));
+        BorderPane root = FXMLLoader.load(getClass().getResource("/view/editarReport.fxml"));
         return root;
     }
 }

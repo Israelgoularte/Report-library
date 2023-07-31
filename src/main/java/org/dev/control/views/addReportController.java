@@ -9,13 +9,14 @@ import org.dev.control.UnitControl;
 import org.dev.control.service.LinksService;
 import org.dev.control.service.SalvarNovoLinkTask;
 import org.dev.control.service.UsuarioService;
+import org.dev.control.service.boxCreators.MenuNavegacaoFactory;
 import org.dev.util.ExceptionMensagen;
 import org.dev.view.ViewSimpleFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AdicionarLinkController implements Initializable {
+public class addReportController implements Initializable {
 
     @FXML
     private Menu menu_navegacao;
@@ -53,9 +54,13 @@ public class AdicionarLinkController implements Initializable {
 
     private Label warning;
 
+    @FXML
+    private Menu links_menu;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         warning = new Label();
+        warning.getStyleClass().add("label-warning");
 
         String outraCategoria = "Nova Categoria";
         String outroTipo = "Novo Tipo";
@@ -72,7 +77,7 @@ public class AdicionarLinkController implements Initializable {
         categoriaChoice.getItems().add(outraCategoria);
         categoriaChoice.setValue("Selecione");
 
-
+        MenuNavegacaoFactory.createMenu(links_menu);
     }
     @FXML
     public void linksPage() {

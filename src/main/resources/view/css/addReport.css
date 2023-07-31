@@ -1,0 +1,35 @@
+@import "styles/root_Style.css";
+@import "styles/box_Style.css";
+@import "styles/label_Style.css";
+@import "styles/button_Style.css";
+@import "styles/texteField_Style.css";
+@import "styles/choiceBox_Style.css";
+@import "styles/progressBar_Style.css";
+@import "styles/menuBar_Style.css";
+
+
+.main-box{
+    -fx-max-width: 450;
+    -fx-max-height: 600;
+}
+
+.text-area {
+    -fx-max-width: 300;
+    -fx-pref-width: 300;
+    -fx-max-height: 150;
+}
+
+.text-field, .choice-box{
+    -fx-pref-width: 300;
+    -fx-max-width: 300;
+    -fx-max-height: 30;
+}
+
+.comum-box .label{
+    -fx-pref-width: 120;
+    -fx-alignment: center-right;
+}
+
+.choice-box .label{
+    -fx-alignment: center-left;
+}

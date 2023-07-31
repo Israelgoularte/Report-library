@@ -1,29 +1,29 @@
 package org.dev.control.service.boxCreators;
 
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import org.dev.control.StyleControl;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.dev.control.service.LinksService;
 import org.dev.model.LinksModel;
+import org.dev.util.ClipboardCopy;
 import org.dev.util.OpenBrowserLink;
+import org.dev.view.ViewSimpleFactory;
 
 // LinksControllerFactory.java
-public class LinksControllerFactory implements LinksViewFactory {
+public class LinksControllerFactory {
 
 
-    @Override
     public void createLinkBox(VBox centralBox) {
         LinksService service = LinksService.getInstance();
         centralBox.getChildren().clear();
         for (LinksModel link :
                 service.getLista()) {
-            addBox(link,service,centralBox);
+            addCard(link,service,centralBox);
         }
 
     }
@@ -38,7 +38,7 @@ public class LinksControllerFactory implements LinksViewFactory {
                     && link.getcategoria().toLowerCase().contains(valoresValido[2].toLowerCase())
                     && link.getDescricao().toLowerCase().contains(valoresValido[3].toLowerCase());
             if(valido){
-                addBox(link,service,centralBox);
+                addCard(link,service,centralBox);
             }
         }
     }
@@ -60,7 +60,7 @@ public class LinksControllerFactory implements LinksViewFactory {
         centralBox.getChildren().clear();
         for (LinksModel link: service.getLista()) {
             if(link.getDescricao().toLowerCase().contains(descricao.toLowerCase()))
-                addBox(link,service,centralBox);
+                addCard(link,service,centralBox);
         }
     }
 
@@ -69,7 +69,7 @@ public class LinksControllerFactory implements LinksViewFactory {
         centralBox.getChildren().clear();
         for (LinksModel link: service.getLista()) {
             if(link.getcategoria().toLowerCase().equals(categoria.toLowerCase()))
-                addBox(link,service,centralBox);
+                addCard(link,service,centralBox);
         }
     }
 
@@ -78,7 +78,7 @@ public class LinksControllerFactory implements LinksViewFactory {
         centralBox.getChildren().clear();
         for (LinksModel link: service.getLista()) {
             if(link.getTipo().toLowerCase().equals(tipe.toLowerCase()))
-                addBox(link,service,centralBox);
+                addCard(link,service,centralBox);
         }
     }
 
@@ -87,141 +87,150 @@ public class LinksControllerFactory implements LinksViewFactory {
         centralBox.getChildren().clear();
         for (LinksModel link: service.getLista()) {
             if(link.getNome().toLowerCase().contains(nome.toLowerCase()))
-                addBox(link,service,centralBox);
+                addCard(link,service,centralBox);
         }
     }
 
-    
-    private void addBox(LinksModel link, LinksService service, VBox centralBox){
-        Background boxBackgroud = new Background(new BackgroundFill(StyleControl.getInstance().getStyle().getBackgroudColor_front(),null,null));
-        Double elementsMaxHeight =  100.0;
+    private void addCard(LinksModel link, LinksService service, VBox centralBox){
+        TitledPane titledPane = new TitledPane();
+        titledPane.getStyleClass().add("titled-pane");
+        titledPane.setExpanded(false);
+        HBox.setHgrow(titledPane,Priority.ALWAYS);
 
-        HBox hBox = new HBox();
-        hBox.setSpacing(20);
-        hBox.setPadding(new Insets(5));
-        hBox.setBorder(new Border(new BorderStroke(Color.BLACK,
-                BorderStrokeStyle.SOLID,
-                CornerRadii.EMPTY,
-                BorderWidths.DEFAULT)));
-        hBox.setAlignment(Pos.CENTER);
-        HBox.setHgrow(hBox,Priority.ALWAYS);
+        Label lblNome = new Label(link.getNome());
+        Label lblCategoria = new Label(link.getcategoria());
+        Label lblTipo = new Label(link.getTipo());
 
+        //adiciono funcao de copiar conteudo com botao direito do mouse
+        configLabel(lblNome,lblCategoria,lblTipo);
 
-
-        VBox[] vBox = new VBox[4];
-        for (int i =0; i<vBox.length;i++){
-            vBox[i] = new VBox();
-            vBox[i] .setSpacing(5);
-            vBox[i] .setPadding(new Insets(5));
-            vBox[i] .setBorder(new Border(new BorderStroke(Color.BLACK,
-                    BorderStrokeStyle.SOLID,
-                    CornerRadii.EMPTY,
-                    BorderWidths.DEFAULT)));
-            vBox[i] .setAlignment(Pos.CENTER);
-            HBox.setHgrow(vBox[i] ,Priority.ALWAYS);
-            vBox[i].setBackground(boxBackgroud);
-        }
-
-
-        Label lblNome = new Label("Nome");
-        TextField tfNome = new TextField(link.getNome());
-        tfNome.setMinHeight(elementsMaxHeight);
-        tfNome.setEditable(false);
-        HBox.setHgrow(tfNome,Priority.ALWAYS);
         HBox.setHgrow(lblNome,Priority.ALWAYS);
 
-        vBox[0].getChildren().addAll(lblNome,tfNome);
+        lblNome.getStyleClass().add("card-label-title");
 
-        Label lblCategoria = new Label("Categoria");
-        TextField tfCategoria = new TextField(link.getcategoria());
-        tfCategoria.setMinHeight(elementsMaxHeight);
-        tfCategoria.setEditable(false);
-        HBox.setHgrow(lblCategoria,Priority.ALWAYS);
-        HBox.setHgrow(tfCategoria,Priority.ALWAYS);
+        Button acessar = new Button("Acessar");
 
-        vBox[1].getChildren().addAll(lblCategoria,tfCategoria);
+        acessar.setOnAction(e->
+        {
+            OpenBrowserLink.acessarLink(link.getLink());
+        });
 
-        Label lblDescricao = new Label("Descricao");
-        TextArea taDescricao = new TextArea(link.getDescricao());
-        taDescricao.setMaxHeight(elementsMaxHeight);
-        taDescricao.setEditable(false);
-        taDescricao.setWrapText(true);
-        HBox.setHgrow(lblDescricao,Priority.ALWAYS);
-        HBox.setHgrow(taDescricao,Priority.ALWAYS);
+        acessar.getStyleClass().add("card-button-acessar");
 
-        vBox[2].getChildren().addAll(lblDescricao,taDescricao);
+        HBox.setHgrow(acessar,Priority.NEVER);
 
-        double btnMinWidth = 200.0;
-        Button btnDownload = new Button("Acessar");
-        Button btnEditar = new Button("Editar");
-        Button btnExcluir = new Button("Excluir");
-        Button btnSalvarEdicao = new Button("Salvar");
-        Button btnResetar = new Button("Reset");
+        HBox leftBox = new HBox();
+        leftBox.getStyleClass().add("card-left");
+        leftBox.getChildren().addAll(lblNome);
 
-        vBox[3].getChildren().addAll(btnDownload,btnEditar,btnExcluir);
+        HBox midBox = new HBox();
+        midBox.getStyleClass().add("card-mid");
+        midBox.getChildren().addAll(lblTipo,lblCategoria);
 
-        btnDownload.setMinWidth(btnMinWidth);
-        btnEditar.setMinWidth(btnMinWidth);
-        btnExcluir.setMinWidth(btnMinWidth);
-        btnSalvarEdicao.setMinWidth(btnMinWidth);
-        btnResetar.setMinWidth(btnMinWidth);
+        HBox rightBox = new HBox();
+        rightBox.getStyleClass().add("card-right");
+        rightBox.getChildren().add(acessar);
 
-        btnSalvarEdicao.setOnAction(e ->{
-            try {
-                service.atualizarLink(link,tfNome.getText(),tfCategoria.getText(),link.getLink(),taDescricao.getText());
+        HBox titleBox = new HBox();
+        titleBox.getStyleClass().add("card-title-box");
+        titleBox.getChildren().addAll(leftBox,midBox,rightBox);
 
-            } catch (IllegalAccessException ex) {
-                ex.printStackTrace();
-                tfNome.setText(link.getNome());
-                tfCategoria.setText(link.getcategoria());
-                taDescricao.setText(link.getDescricao());
 
-            }finally {
-                vBox[3].getChildren().remove(btnResetar);
-                vBox[3].getChildren().remove(btnSalvarEdicao);
-                vBox[3].getChildren().add(btnEditar);
-                vBox[3].getChildren().add(btnExcluir);
-                tfNome.setEditable(false);
-                tfCategoria.setEditable(false);
-                taDescricao.setEditable(false);
+        HBox.setHgrow(leftBox,Priority.SOMETIMES);
+        HBox.setHgrow(midBox,Priority.ALWAYS);
+        HBox.setHgrow(rightBox,Priority.SOMETIMES);
+        HBox.setHgrow(titleBox,Priority.ALWAYS);
+        titledPane.setGraphic(titleBox);
+
+
+        BorderPane content = new BorderPane();
+        titledPane.setContent(content);
+
+        Text textDescricao = new Text(link.getDescricao());
+        textDescricao.setWrappingWidth(400); //adiciona quebra de linha automatica
+
+        textDescricao.setOnMouseClicked(e->
+        {
+            if (e.getButton().name().equalsIgnoreCase("SECONDARY")) {
+                String text = textDescricao.getText();
+                ClipboardCopy.copyToClipboard(text);
             }
         });
+        textDescricao.getStyleClass().add("card-descricao");
 
-        btnResetar.setOnAction(e ->{
+        HBox centerBox = new HBox();
+        centerBox.getStyleClass().add("card-center-box");
+        centerBox.getChildren().add(textDescricao);
 
+
+        HBox topBox = new HBox();
+        topBox.getStyleClass().add("card-top-box");
+
+        Button btnEditar = new Button("Editar");
+        btnEditar.getStyleClass().add("card-button-editar");
+
+        btnEditar.setOnAction(e ->{
+            ViewSimpleFactory.createView("EDITAR_REPORT");
         });
 
-        btnDownload.setOnAction(e ->
-        {
-            if(OpenBrowserLink.acessarLink(link.getLink())){
-                System.out.println("Link aberto no navegador");
-            }else System.out.println("Acesso negado a: " + link.getNome() + " link: " + link.getLink() );
-        });
 
-        btnEditar.setOnAction( e ->{
-            tfNome.setEditable(true);
-            tfCategoria.setEditable(true);
-            taDescricao.setEditable(true);
-            vBox[3].getChildren().remove(btnEditar);
-            vBox[3].getChildren().remove(btnExcluir);
-            vBox[3].getChildren().add(btnResetar);
-            vBox[3].getChildren().add(btnSalvarEdicao);
-        });
+
+        topBox.getChildren().add(btnEditar);
+
+        HBox bottomBox = new HBox();
+        bottomBox.getStyleClass().add("card-bottom-box");
+
+        Button btnExcluir = new Button("Excluir");
+        btnExcluir.getStyleClass().add("card-button-excluir");
 
         btnExcluir.setOnAction(e ->{
             try {
-                service.excluirLink(link);
-                createLinkBox(centralBox);
+                Alert alerta = new Alert(Alert.AlertType.CONFIRMATION,"Ao clicar Ok, o registro sera excluido permanentemente!", ButtonType.OK,ButtonType.NO);
+                alerta.setTitle("Atenção!!!");
+                alerta.setHeaderText("Deseja realmente excluir o Registro?");
+                alerta.showAndWait();
+                if (alerta.getResult().getText().equalsIgnoreCase("OK")){
+                    service.excluirLink(link);
+                    createLinkBox(centralBox);
+                }
             } catch (IllegalAccessException ex) {
                 ex.printStackTrace();
             }
         });
 
+        bottomBox.getChildren().add(btnExcluir);
 
+       content.setBottom(bottomBox);
+       content.setTop(topBox);
+       content.setCenter(centerBox);
 
-        hBox.getChildren().addAll(vBox);
+        titledPane.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                double newWidth = (double) newValue;
+                // Ajusta o tamanho do título para 80% da largura da janela
+                double titleWidth = newWidth * 0.95;
+                titleBox.setMinWidth(titleWidth);
+                titleBox.setMaxWidth(titleWidth);
+            }
+        });
 
-        centralBox.getChildren().add(hBox);
+        centralBox.getChildren().add(titledPane);
     }
+
+    private void configLabel(Label ...labels){
+        for (int i = 0; i < labels.length; i++) {
+            String text = labels[i].getText();
+            labels[i].setOnMouseClicked(e ->{
+                if(e.getButton().name().equalsIgnoreCase("SECONDARY"))
+                {
+                    String textToCopy = text;
+                    ClipboardCopy.copyToClipboard(textToCopy);
+                }
+            });
+            HBox.setHgrow(labels[i],Priority.SOMETIMES);
+        }
+    }
+
 }
 

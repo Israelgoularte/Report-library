@@ -1,0 +1,17 @@
+@import "styles/root_Style.css";
+@import "styles/box_Style.css";
+@import "styles/label_Style.css";
+@import "styles/button_Style.css";
+@import "styles/texteField_Style.css";
+@import "styles/choiceBox_Style.css";
+@import "styles/card_Style.css";
+@import "styles/scrollPane_Style.css";
+@import "styles/menuBar_Style.css";
+
+.main-box{
+    -fx-alignment: top-center;
+    -fx-max-height: 900;
+    -fx-max-width: 1024;
+    -fx-pref-width: 1024;
+    -fx-padding: 10;
+}
