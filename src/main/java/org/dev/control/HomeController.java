@@ -1,4 +1,4 @@
-package org.dev.control.views;
+package org.dev.control;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -102,7 +102,7 @@ public class HomeController implements Initializable {
 
     @FXML
     public void adicionarLink() {
-        ViewSimpleFactory.createView("ADICIONAR_LINK");
+        ViewSimpleFactory.createView("ADD_REPORT");
     }
 
 

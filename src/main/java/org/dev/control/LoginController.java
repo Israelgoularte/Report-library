@@ -1,4 +1,4 @@
-package org.dev.control.views;
+package org.dev.control;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

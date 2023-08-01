@@ -1,11 +1,10 @@
-package org.dev.control.views;
+package org.dev.control;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.dev.control.UnitControl;
 import org.dev.control.service.LinksService;
 import org.dev.control.service.SalvarNovoLinkTask;
 import org.dev.control.service.UsuarioService;
@@ -18,8 +17,6 @@ import java.util.ResourceBundle;
 
 public class addReportController implements Initializable {
 
-    @FXML
-    private Menu menu_navegacao;
 
     @FXML
     private TextField nomeField;
@@ -81,7 +78,7 @@ public class addReportController implements Initializable {
     }
     @FXML
     public void linksPage() {
-        ViewSimpleFactory.createView("LINKS");
+        ViewSimpleFactory.createView("HOME");
     }
 
     @FXML
@@ -230,4 +227,6 @@ public class addReportController implements Initializable {
             categoriaBox.getChildren().addAll(novaCategoriaField,btnCancelar);
         }
     }
+
+
 }

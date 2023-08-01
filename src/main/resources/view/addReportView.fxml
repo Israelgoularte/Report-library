@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import java.lang.String?>
 <BorderPane stylesheets="@css/addReport.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.dev.control.views.addReportController">
+            fx:controller="org.dev.control.addReportController">
     <!-- ... Restante do código ... -->
     <top>
         <HBox fx:id="topBox" styleClass="medium-box" HBox.hgrow="ALWAYS">

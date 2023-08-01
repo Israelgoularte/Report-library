@@ -1,9 +1,6 @@
-.medium-box {
-    -fx-background-color: -cor_box_gradient_p; /* Defina a cor desejada para o VBox */
+.comum-box {
     -fx-spacing: 10.0;
     -fx-padding: 10.0;
-    -fx-start-margin: 10;
-    -fx-border-color: -cor_borda;
     -fx-alignment: center;
 }
 
@@ -33,5 +30,4 @@
 .adjust-box{
     -fx-padding: 20;
     -fx-alignment: center-left;
-
 }

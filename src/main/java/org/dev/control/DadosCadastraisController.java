@@ -1,4 +1,4 @@
-package org.dev.control.views;
+package org.dev.control;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -66,7 +66,7 @@ public class DadosCadastraisController implements Initializable {
     }
     @FXML
     private void voltar() {
-        ViewSimpleFactory.createView("LINKS");
+        ViewSimpleFactory.createView("HOME");
     }
 
     @FXML
@@ -113,7 +113,7 @@ public class DadosCadastraisController implements Initializable {
 
 
     public void adicionarLink() {
-        ViewSimpleFactory.createView("ADICIONAR_LINK");
+        ViewSimpleFactory.createView("ADD_REPORT");
     }
 }
 

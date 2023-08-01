@@ -2,7 +2,7 @@ package org.dev.view;
 
 public enum ConstantsView {
 
-    ADICIONAR_LINK(new addReportView()),
+    ADD_REPORT(new addReportView()),
 
     EDITAR_REPORT(new EditarReportView()),
     LOGIN(new LoginView()),

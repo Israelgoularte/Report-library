@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<installation version="1.0">
+    <info>
+        <appname>ReportLibrary</appname>
+        <appversion>1.0</appversion>
+        <appsubpath>ReportLibrary</appsubpath>
+        <appdesc>Experiencias registradas</appdesc>
+    </info>
+    <variables>
+        <variable name="dbUser" value=""/>
+        <variable name="dbPassword" value=""/>
+        <variable name="dbServer" value=""/>
+        <variable name="dbDatabase" value=""/>
+        <variable name="dbPort" value=""/>
+        <variable name="url" value=
+    </variables>
+
+    <!-- Painel de Instalação -->
+    <guiprefs width="640" height="480" resizable="no" />
+
+    <!-- Painel de Licença -->
+    <locale>
+        <langpack iso3="eng" />
+    </locale>
+
+    <panels>
+        <!-- Painel de Boas-vindas -->
+        <panel classname="HelloPanel" />
+
+        <!-- Painel de Seleção de Diretório de Instalação -->
+        <panel classname="TargetPanel" />
+
+        <!-- Painel de Licença (opcional) -->
+        <panel classname="LicencePanel" />
+
+        <!-- Painel de Informações do Banco de Dados -->
+        <panel classname="UserInputPanel">
+            <field type="text" variable="dbUser" label="Usuário do Banco de Dados:" default=""/>
+            <field type="password" variable="dbPassword" label="Senha do Banco de Dados:" default=""/>
+            <field type="text" variable="dbServer" label="Server do Banco de Dados:" default=""/>
+            <field type="text" variable="dbDatabase" label="Nome do Database:" default=""/>
+            <field type="text" variable="dbPort" label="Porta:" default="5432"/>
+        </panel>
+
+        <!-- Painel de Seleção de Pacotes -->
+        <panel classname="PacksPanel">
+            <pack>
+                <name>ReportLibrary</name>
+                <description>Arquivos do MeuPrograma</description>
+                <file src="files/" targetdir="$INSTALL_PATH" />
+            </pack>
+        </panel>
+
+        <!-- Painel de Instalação -->
+        <panel classname="InstallPanel" />
+
+        <!-- Painel de Conclusão -->
+        <panel classname="FinishPanel" />
+
+        <!-- Painel de Criação de Atalhos -->
+        <panel classname="ShortcutPanel" />
+    </panels>
+</installation>

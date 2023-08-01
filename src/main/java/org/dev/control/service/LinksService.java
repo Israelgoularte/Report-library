@@ -12,13 +12,13 @@ import java.util.List;
 public class LinksService {
 
     private final LinksRepository linksRepository;
-    private static  EntityManager entityManager;
+    private static EntityManager entityManager;
     private static EntityManagerFactory entityManagerFactory;
 
     private static LinksService instance;
 
     public static LinksService getInstance() {
-        if (instance==null){
+        if (instance == null) {
             entityManagerFactory = Persistence.createEntityManagerFactory(UnitControl.getInstance().getUnit());
             entityManager = entityManagerFactory.createEntityManager();
             LinksRepository rp = new LinksRepository(entityManager);
@@ -27,11 +27,11 @@ public class LinksService {
         return instance;
     }
 
-    public static void closeService(){
-        try{
+    public static void closeService() {
+        try {
             entityManager.close();
             entityManagerFactory.close();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             //Apenas continue
         }
         instance = null;
@@ -41,7 +41,7 @@ public class LinksService {
         this.linksRepository = linksRepository;
     }
 
-    public List<LinksModel> getLista(){
+    public List<LinksModel> getLista() {
         return linksRepository.getContent();
     }
 
@@ -49,7 +49,7 @@ public class LinksService {
         linksRepository.excluirElemento(link);
     }
 
-    public void adicionarLink(String nome,String tipo, String categoria, String descricao, String link) throws IllegalAccessException {
+    public void adicionarLink(String nome, String tipo, String categoria, String descricao, String link) throws IllegalAccessException {
         LinksModel novoLink = new LinksModel();
         novoLink.setNome(nome);
         novoLink.setTipo(tipo);
@@ -59,8 +59,8 @@ public class LinksService {
         linksRepository.adicionarElemento(novoLink);
     }
 
-    public void atualizarLink(LinksModel linksModel,String nome,String tipo, String categoria, String link, String descricao){
-        String[] oldValues = {linksModel.getNome(),linksModel.getTipo(),linksModel.getcategoria(),linksModel.getLink(),linksModel.getDescricao()};
+    public boolean atualizarLink(LinksModel linksModel, String nome, String tipo, String categoria, String link, String descricao) throws Throwable {
+        String[] oldValues = {linksModel.getNome(), linksModel.getTipo(), linksModel.getcategoria(), linksModel.getLink(), linksModel.getDescricao()};
         linksModel.setNome(nome);
         linksModel.setTipo(tipo);
         linksModel.setcategoria(categoria);
@@ -68,20 +68,24 @@ public class LinksService {
         linksModel.setDescricao(descricao);
         try{
             this.linksRepository.atualizarElemento(linksModel);
-        }catch (Exception e){
+            return true;
+        } catch (Exception e){
             linksModel.setNome(oldValues[0]);
             linksModel.setTipo(oldValues[1]);
             linksModel.setcategoria(oldValues[2]);
             linksModel.setLink(oldValues[3]);
             linksModel.setDescricao(oldValues[4]);
+            throw e;
+        } catch (Throwable e) {
+            throw e;
         }
     }
 
-    public List<String> categoriasCadastradas(){
+    public List<String> categoriasCadastradas() {
         return this.linksRepository.selectDistinctInfo("categoria");
     }
 
-    public List<String> tiposCadastradas(){
+    public List<String> tiposCadastradas() {
         return this.linksRepository.selectDistinctInfo("tipo");
     }
 }

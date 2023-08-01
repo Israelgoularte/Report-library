@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
-<BorderPane id="login" styleClass="root" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.views.LoginController">
+<BorderPane id="login" styleClass="root" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.LoginController">
     <left>
         <!--inicio main box-->
         <VBox fx:id="loginbox" styleClass="adjust-box">

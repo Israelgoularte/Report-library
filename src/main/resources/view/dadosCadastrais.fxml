@@ -9,11 +9,11 @@
             xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1"
             stylesheets="@css/dadosCadastrais.css"
-            fx:controller="org.dev.control.views.DadosCadastraisController">
+            fx:controller="org.dev.control.DadosCadastraisController">
     <top>
         <HBox fx:id="topBox" styleClass="medium-box" HBox.hgrow="ALWAYS">
             <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                <MenuBar prefHeight="26.0" prefWidth="163.0">
+                <MenuBar>
                     <Menu text="Navegação">
                         <MenuItem text="Inicio" onAction="#voltar"/>
                         <MenuItem text="Novo Link" onAction="#adicionarLink"/>
@@ -28,7 +28,7 @@
                 <Label styleClass="label-title" text="Report Library"/>
             </HBox>
             <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                <MenuBar prefHeight="26.0" prefWidth="165.0">
+                <MenuBar >
                     <Menu text="Usuario">
                         <MenuItem text="Sair" onAction="#sair"/>
                     </Menu>

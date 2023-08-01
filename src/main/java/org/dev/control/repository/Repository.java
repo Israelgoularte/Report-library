@@ -2,6 +2,8 @@ package org.dev.control.repository;
 
 import jakarta.persistence.EntityManager;
 
+import java.sql.SQLException;
+
 public abstract class  Repository<T,E> {
     protected EntityManager entityManager;
 
@@ -11,7 +13,7 @@ public abstract class  Repository<T,E> {
     public abstract T getContent() throws IllegalAccessException;
     public abstract void excluirElemento(E ...elemento) throws IllegalAccessException;
     public abstract void adicionarElemento(E ...elemento) throws IllegalAccessException;
-    public abstract void atualizarElemento(E ...elemento) throws IllegalAccessException;
+    public abstract boolean atualizarElemento(E ...elemento) throws Throwable;
 
 
 

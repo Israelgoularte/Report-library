@@ -9,6 +9,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.dev.control.service.LinksService;
+import org.dev.control.service.ReportEditavel;
 import org.dev.model.LinksModel;
 import org.dev.util.ClipboardCopy;
 import org.dev.util.OpenBrowserLink;
@@ -170,6 +171,7 @@ public class LinksControllerFactory {
         btnEditar.getStyleClass().add("card-button-editar");
 
         btnEditar.setOnAction(e ->{
+            ReportEditavel.getInstance().setReport(link);
             ViewSimpleFactory.createView("EDITAR_REPORT");
         });
 

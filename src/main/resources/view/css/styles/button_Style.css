@@ -13,3 +13,32 @@
 .button:pressed {
     -fx-background-color: -cor_button_pressed;
 }
+
+.button-acessar{
+    -fx-background-color: -cor_positiva;
+    -fx-min-width: 80;
+
+}
+
+.button-acessar:hover{
+    -fx-background-color: -cor_positiva_hover;
+}
+
+.button-acessar:pressed{
+    -fx-background-color: -cor_positiva_pressed;
+}
+
+.button-excluir{
+    -fx-background-color: -cor_atencao;
+    -fx-min-width: 80;
+
+}
+
+.button-excluir:hover{
+    -fx-background-color: -cor_atencao_hover;
+}
+
+.button-excluir:pressed{
+    -fx-background-color: -cor_atencao_pressed;
+
+}

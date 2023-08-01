@@ -1,13 +1,17 @@
-package org.dev.control.views;
+package org.dev.control;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.dev.control.UnitControl;
 import org.dev.control.service.EditarReportTask;
 import org.dev.control.service.LinksService;
 import org.dev.control.service.ReportEditavel;
+import org.dev.control.service.UsuarioService;
+import org.dev.control.service.boxCreators.MenuNavegacaoFactory;
 import org.dev.model.LinksModel;
 import org.dev.util.ExceptionMensagen;
 import org.dev.view.ViewSimpleFactory;
@@ -53,22 +57,36 @@ public class EditarReportController implements Initializable {
     private Label warning;
     private LinksModel report;
 
+
+    @FXML
+    private Menu links_menu;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        warning = new Label();
+
         report = ReportEditavel.getInstance().getReport();
+
         tfNome.setText(report.getNome());
         tfNome.setPromptText(report.getNome());
+
         tfLink.setText(report.getLink());
         tfLink.setPromptText(report.getLink());
+
         taDescricao.setPromptText(report.getDescricao());
         taDescricao.setText(report.getDescricao());
+
+
         List<String> tipos = LinksService.getInstance().tiposCadastradas();
         for (String tipo: tipos) {
             tfTipo.getItems().add(tipo);
         }
         tfTipo.getItems().add("Outro");
+        tfTipo.setValue(report.getTipo());
+
         tfTipo.setOnAction(e->{
             novoTipoField = new TextField("");
+            novoTipoField.getStyleClass().add("field-custom");
             if(tfTipo.getValue().equalsIgnoreCase("Outro")){
                 choiceAction(boxTipo, tfTipo, novoTipoField);
             }
@@ -79,31 +97,44 @@ public class EditarReportController implements Initializable {
             tfCategoria.getItems().add(categoria);
         }
         tfCategoria.getItems().add("Outra");
+
+        tfCategoria.setValue(report.getcategoria());
+
         tfCategoria.setOnAction(e->{
             novaCategoriaField = new TextField("");
+            novaCategoriaField.getStyleClass().add("field-custom");
             if(tfCategoria.getValue().equalsIgnoreCase("Outra")){
                 choiceAction(boxCategoria, tfCategoria, novaCategoriaField);
             }
         });
+
+        MenuNavegacaoFactory.createMenu(links_menu);
     }
 
     private void choiceAction(HBox box, ChoiceBox<String> choiceBox, TextField field) {
         box.getChildren().remove(choiceBox);
         Button btnOk = new Button("OK");
+        btnOk.getStyleClass().add("button-acessar");
         btnOk.setOnAction(f-> {
             salvar(field, choiceBox, box);
         });
 
         Button btnCancel = new Button("Cancelar");
+        btnCancel.getStyleClass().add("button-excluir");
         btnCancel.setOnAction(f->{
             cancelar(choiceBox, box);
         });
-        box.getChildren().addAll(field,btnOk,btnCancel);
+
+        VBox btnbox = new VBox();
+        btnbox.getStyleClass().add("comum-box");
+        btnbox.getChildren().addAll(btnOk,btnCancel);
+        box.getChildren().addAll(field,btnbox);
     }
 
 
     @FXML
     public void salvarAlteracao() {
+        warningBox.getChildren().remove(warning);
         String nome = tfNome.getText();
         String tipo;
         String categoria;
@@ -123,22 +154,29 @@ public class EditarReportController implements Initializable {
 
         task.setOnSucceeded(e->{
             if (task.getValue()) {
+                warning.setText("Salvo com Sucesso");
+                warningBox.getChildren().add(warning);
                 voltar();
             } else {
                 progress.setStyle("-fx-accent: #ff0e13;");
-                System.out.println("a");
-                warning.setText(ExceptionMensagen.simpleMenssage(task.getException().getMessage(),"Report" ));
+                System.out.println( "Sucess Menssagem: " + task.getMessage());
+                warning.setText(ExceptionMensagen.simpleMenssage(task.getMessage(),"Report" ));
                 warningBox.getChildren().add(1,warning);
             }
         });
 
         task.setOnFailed(e->{
             progress.setStyle("-fx-accent: #ff0e13;");
-            warning.setText(ExceptionMensagen.simpleMenssage(task.getException().getMessage(), "Report"));
+            System.out.println("Fail menssagem: "+task.getException().getMessage());
+            warning.setText(ExceptionMensagen.simpleMenssage(task.getMessage(), "Report"));
             warningBox.getChildren().add(1,warning);
         });
 
+
         progress.progressProperty().bind(task.progressProperty());
+
+        warningBox.setVisible(true);
+        progress.setVisible(true);
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
@@ -169,8 +207,32 @@ public class EditarReportController implements Initializable {
     }
 
     private void removerAddChoiceElement(HBox box){
-        for (int i = 1; i < box.getChildren().size(); i++) {
-            box.getChildren().remove(i);
-        }
+        Node first = box.getChildren().get(0);
+        box.getChildren().clear();
+        box.getChildren().add(first);
     }
+
+    @FXML
+    public void logout() {
+        UsuarioService.closeService();
+        UnitControl.getInstance().setUnit(null);
+        ViewSimpleFactory.createView("LOGIN");
+    }
+
+    @FXML
+    public void dadosUsuario() {
+        LinksService.closeService();
+        ViewSimpleFactory.createView("DADOS_CADASTRAIS");
+    }
+
+    @FXML
+    public void novoReport() {
+        ViewSimpleFactory.createView("ADD_REPORT");
+    }
+
+    @FXML
+    public void homePage() {
+        ViewSimpleFactory.createView("HOME");
+    }
+
 }

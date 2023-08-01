@@ -1,113 +1,44 @@
-.root {
-    -cor_transparent: rgba(255, 255, 255, 0);
+@import "styles/root_Style.css";
+@import "styles/box_Style.css";
+@import "styles/label_Style.css";
+@import "styles/button_Style.css";
+@import "styles/texteField_Style.css";
+@import "styles/choiceBox_Style.css";
+@import "styles/progressBar_Style.css";
+@import "styles/menuBar_Style.css";
 
-    -cor_fundo_p: rgba(45, 70, 118, 0.5);
-    -cor_fundo_s: rgba(26, 45, 62, 0.5);
-    -cor_fundo_t: rgba(17, 29, 41, 0.5);
-    -cor_fundo_gradient_p:linear-gradient(from 0% 100%  to 100% 0%, -cor_fundo_p,-cor_fundo_s, -cor_fundo_t);
 
-    -cor_box_p: rgba(98, 98, 98, 0.50);
-    -cor_box_s: rgba(51, 51, 51, 0.5);
-    -cor_box_t: rgba(33, 33, 33, 0.5);
-    -cor_box_gradient_p: linear-gradient(from 0% 100%  to 100% 0%,-cor_box_p , -cor_box_s, -cor_box_t);
-
-    -cor_text: #ffffff;
-    -font_family: "System Bold";
-
-    -cor_button: linear-gradient(from 0% 100%  to 100% 0%, rgba(0, 252, 252, 0.48), rgba(45, 103, 103, 0.4), rgb(1, 246, 246));
-    -cor_button_hover:  rgba(0, 252, 252, 0.48);
-    -cor_button_pressed: rgb(1, 246, 246);
-
-    -cor_positiva: linear-gradient(from 0% 100%  to 100% 0%, #1f801f, rgba(29, 161, 29, 0.53), #05f325);
-    -cor_positiva_hover: #1f801f;
-    -cor_positiva_pressed:#05f325;
-
-    -cor_alerta: linear-gradient(from 0% 100%  to 100% 0%, #bdb51b, rgba(155, 149, 31, 0.53), #e7da09);
-    -cor_alerta_hover: #bdb51b;
-    -cor_alerta_pressed: #e7da09;
-
-    -cor_atencao: linear-gradient(from 0% 100%  to 100% 0%, #8c1919, rgba(145, 28, 28, 0.5), #f50202);
-    -cor_atencao_hover:#8c1919;
-    -cor_atencao_pressed:#f50202;
-
-    -cor_fields: linear-gradient(from 0% 100%  to 100% 0%, #626262,#333333, #212121);
-    -cor_fields_hover: #626262;
-    -cor_fields_pressed: #212121;
-
-    -cor_borda:#ffffff;
-
-    -fx-background-image: url("img/cf.png");
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-background-size: cover;
-}
-
-.medium-box {
-    -fx-background-color: -cor_box_gradient_p; /* Defina a cor desejada para o VBox */
-    -fx-spacing: 10.0;
-    -fx-padding: 10.0;
-    -fx-start-margin: 10;
-    -fx-border-color: -cor_borda;
-    -fx-alignment: center;
-}
-
-.medium-box {
-    -fx-background-color: -cor_box_gradient_p; /* Defina a cor desejada para o VBox */
-    -fx-spacing: 10.0;
-    -fx-padding: 10.0;
-    -fx-start-margin: 10;
-    -fx-border-color: -cor_borda;
-    -fx-alignment: center;
-}
-
-.text-field {
-    -fx-prompt-text-fill: -cor_text;
-    -fx-background-color:-cor_fields;
-    -fx-text-fill: -cor_text;
+.main-box{
+    -fx-max-width: 450;
+    -fx-max-height: 600;
+    -fx-background-color: -cor_box_gradient_p;
     -fx-border-color: -cor_borda;
     -fx-border-width: 1px;
-    -fx-border-radius: 5px;
-    -fx-font-size: 14px;
-    -fx-padding: 5px;
+    -fx-padding: 10;
+    -fx-spacing: 10;
 }
 
-.text-field:hover{
-    -fx-background-color:-cor_fields_hover;
-
+.text-area {
+    -fx-max-width: 300;
+    -fx-pref-width: 300;
+    -fx-max-height: 150;
 }
 
-.text-field:pressed{
-    -fx-background-color:-cor_fields_pressed;
-
-
+.text-field, .choice-box{
+    -fx-pref-width: 300;
+    -fx-max-width: 300;
+    -fx-max-height: 30;
 }
 
-.text-area .content{
-    -fx-background-color: -cor_fields;
-}
-.text-area .content:hover{
-    -fx-background-color: -cor_fields_hover;
-}
-.text-area .content:pressed{
-    -fx-background-color: -cor_fields_pressed;
-}
-.text-area{
-    -fx-wrap-text: true;
-    -fx-text-fill: -cor_text;
-    -fx-font-size: 14px;
-    -fx-border-color: -cor_borda;
-    -fx-border-radius: 5px;
-
-}
-
-.label {
-    -fx-font-size: 14px;
-    -fx-text-fill: -cor_text;
+.comum-box .label{
+    -fx-pref-width: 120;
     -fx-alignment: center-right;
-    -fx-font-family: -font_family;
 }
 
-.label-title{
-    -fx-font-weight: bold;
-    -fx-alignment: center;
+.choice-box .label{
+    -fx-alignment: center-left;
+}
+
+.field-custom{
+    -fx-pref-width: 200;
 }

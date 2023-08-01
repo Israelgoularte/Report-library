@@ -37,16 +37,26 @@ public class EditarReportTask extends Task<Boolean> {
             // Antes de iniciar a tarefa, defina a ProgressBar como visível
             updateMessage("");
             updateProgress(step++, totalSteps);
-
             validaDados();
             updateProgress(step++, totalSteps);
-
-            LinksService.getInstance().atualizarLink(report,nome,tipo,categoria,link,descricao);
+            boolean situcao = LinksService.getInstance().atualizarLink(report,nome,tipo,categoria,link,descricao);
+            System.out.println(situcao);
+            updateValue(situcao);
             updateProgress(1, 1);
-            progressBar.setStyle("-fx-accent: #02f602;");
-            Thread.sleep(1000);
-            return true;
+            if(situcao){
+                progressBar.setStyle("-fx-accent: #02f602;");
+                Thread.sleep(1000);
+            }
+            return situcao;
         }catch (Exception e) {
+            System.out.println("EditorTask " +e +"\n ######\n" + e.getMessage());
+            updateMessage(e.getMessage());
+            updateValue(false);
+            setException(e); // Define a exceção ocorrida para ser capturada no evento setOnFailed
+            updateProgress(1, 1); // Atualiza o progresso para 100%
+            return false;
+        } catch (Throwable e) {
+            System.out.println("EditorTask " +e +"\n ######\n" + e.getMessage());
             updateMessage(e.getMessage());
             updateValue(false);
             setException(e); // Define a exceção ocorrida para ser capturada no evento setOnFailed

@@ -3,9 +3,20 @@
 }
 
 .menu-bar .menu-item{
-    -fx-background-color:linear-gradient(from 0% 100%  to 100% 0%, #626262,#333333, #212121);
+    -fx-background-color:-cor_fields;
     -fx-border-color: -cor_borda;
 }
+
+.menu-bar .menu-item:hover{
+    -fx-background-color: -cor_fields_hover;
+}
+
+.menu-bar .menu-item:pressed{
+    -fx-background-color: -cor_fields_pressed;
+}
+
+
+
 
 
 

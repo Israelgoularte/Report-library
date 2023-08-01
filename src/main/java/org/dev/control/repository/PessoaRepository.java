@@ -60,7 +60,7 @@ public class PessoaRepository extends Repository<PessoaModel,String> {
     }
 
     @Override
-    public void atualizarElemento(String ...info) throws IllegalAccessException,IllegalArgumentException {
+    public boolean atualizarElemento(String ...info) throws IllegalAccessException,IllegalArgumentException {
         if(pessoa == null && info !=null && info.length==1){
             pessoa = entityManager.createQuery("SELECT l FROM PessoaModel as l WHERE l.idLogin = :id_login", PessoaModel.class)
                     .setParameter("id_login", info[0])
@@ -84,5 +84,6 @@ public class PessoaRepository extends Repository<PessoaModel,String> {
         }else if(pessoa !=null && info == null){
             this.pessoa = null;
         }else throw new IllegalAccessException("Acesso Negado");
+        return true;
     }
 }

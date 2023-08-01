@@ -56,7 +56,7 @@ public class LinksRepository extends Repository<List<LinksModel>, LinksModel> {
     }
 
     @Override
-    public void atualizarElemento(LinksModel ...elementos) {
+    public boolean atualizarElemento(LinksModel ...elementos) throws Throwable {
         for (LinksModel elemento: elementos) {
 
             EntityTransaction ts = entityManager.getTransaction();
@@ -66,10 +66,10 @@ public class LinksRepository extends Repository<List<LinksModel>, LinksModel> {
                 ts.commit();
             } catch (Exception e) {
                 ts.rollback();
-                e.printStackTrace();
-                throw e;
+                throw e.getCause();
             }
         }
+        return true;
     }
 
     public List<String> selectDistinctInfo(String collum){

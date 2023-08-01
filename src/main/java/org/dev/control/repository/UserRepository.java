@@ -69,7 +69,7 @@ public class UserRepository extends Repository<LoginModel,String> {
     }
 
     @Override
-    public void atualizarElemento(String ...info) throws IllegalAccessException {
+    public boolean atualizarElemento(String ...info) throws IllegalAccessException {
         if(user == null && info!=null){ // se ainda não tiver realizado login armazena os dados do login realizado.
             user = entityManager.createQuery("SELECT l FROM LoginModel as l WHERE l.usuario = :username and l.hashsenha = :password", LoginModel.class)
                     .setParameter("username", info[0])
@@ -98,5 +98,6 @@ public class UserRepository extends Repository<LoginModel,String> {
             }
         }
         else throw new IllegalAccessException("Acesso Negado"); //
+        return true;
     }
 }
