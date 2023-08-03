@@ -6,9 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import org.dev.control.service.UsuarioService;
-import org.dev.control.service.boxCreators.MenuNavegacaoFactory;
 import org.dev.model.PessoaModel;
+import org.dev.service.fxelement.MenuReportOptionsMyServices;
+import org.dev.service.usuario.AtualizarEmailMyServices;
+import org.dev.service.usuario.AtualizarPessoa;
+import org.dev.service.usuario.LogoutMyServices;
+import org.dev.util.contexto.UsuarioContexto;
+import org.dev.util.menssagensInternas.GenericMenssage;
 import org.dev.view.ViewSimpleFactory;
 
 import java.net.URL;
@@ -33,27 +37,23 @@ public class DadosCadastraisController implements Initializable {
     private HBox buttonBox;
 
     @FXML
-    private Menu links_menu;
+    private Menu reportMenu;
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        try {
-            PessoaModel pm = UsuarioService.getInstance().getPessoa().getContent();
-            String[] data = String.valueOf(pm.getDataNascimento()).split("-");
-            this.nomeField.setText(pm.getNome());
-            this.diaNascimento.setText(String.valueOf(data[2]));
-            this.mesNascimento.setText(String.valueOf(data[1]));
-            this.anoNascimento.setText(String.valueOf(data[0]));
-            this.email.setText(UsuarioService.getInstance().getUser().getContent().getEmail());
-            setEditable(false);
-        } catch (IllegalAccessException e) {
-            System.out.println(e.getMessage());
-            //ADICIONAR TELA DE ERRO
-        } catch (NullPointerException e){
-            System.out.println(e.getMessage());
-            //ADICIONAR TELA DE ERRO
+        PessoaModel pessoaModel = UsuarioContexto.getInstance().getContexto().getPessoaByPessoaId();
+        String[] data = String.valueOf(pessoaModel.getDataNascimento()).split("-");
+        this.nomeField.setText(pessoaModel.getNome());
+        this.diaNascimento.setText(String.valueOf(data[2]));
+        this.mesNascimento.setText(String.valueOf(data[1]));
+        this.anoNascimento.setText(String.valueOf(data[0]));
+        this.email.setText(UsuarioContexto.getInstance().getContexto().getEmail());
+        setEditable(false);
+
+        GenericMenssage<Boolean,String> addMenuReportOptionsResult = new MenuReportOptionsMyServices(reportMenu).execute();
+        if (addMenuReportOptionsResult.getMenssageOne()){
+            //tratativa de erro;
         }
-        MenuNavegacaoFactory.createMenu(links_menu);
 
     }
 
@@ -71,10 +71,11 @@ public class DadosCadastraisController implements Initializable {
 
     @FXML
     private void sair(){
-        try {
-            UsuarioService.getInstance().logout();
-        } catch (IllegalAccessException e) {
-            System.out.println(e.getMessage());
+        GenericMenssage<Boolean,String> logoutResult = new LogoutMyServices().execute();
+        if (logoutResult.getMenssageOne()){
+            ViewSimpleFactory.createView("LOGIN");
+        }else{
+            //possibilidade de trataiva de erro;
         }
     }
 
@@ -86,7 +87,6 @@ public class DadosCadastraisController implements Initializable {
         btnSalvarEdicao.setOnAction(e -> {
             atualizarPessoa();
             atualizarLogin();
-            atualizarEndereco();
             buttonBox.getChildren().remove(btnSalvarEdicao);
             setEditable(false);
         });
@@ -94,20 +94,29 @@ public class DadosCadastraisController implements Initializable {
 
     public void atualizarPessoa(){
         String nome = this.nomeField.getText();
-        String dataNascimento = this.anoNascimento.getText()+"-"+this.mesNascimento.getText()+"-"+this.diaNascimento.getText();
-        try {
-            UsuarioService.getInstance().getUser().atualizarElemento(nome,dataNascimento);
-        } catch (IllegalAccessException e) {
-            System.out.println(e.getMessage());
-        }
+        GenericMenssage<Boolean,String> atualizarPessoaResult = new AtualizarPessoa(
+                nome,
+                this.diaNascimento.getText(),
+                this.mesNascimento.getText(),
+                this.anoNascimento.getText()
+            ).execute();
 
+        if(atualizarPessoaResult.getMenssageOne()){
+            //Alerta de sucesso ao atualizar dados
+        }else{
+            //Alerta de erro;
+        }
     }
 
     public void atualizarLogin(){
+        String email = this.email.getText();
 
-    }
-
-    public void atualizarEndereco(){
+        GenericMenssage<Boolean,String> atualizarEmailResult = new AtualizarEmailMyServices(email).execute();
+        if (atualizarEmailResult.getMenssageOne()){
+            //alerta de sucesso ao atualizar email
+        }else{
+            //alerta de erro
+        }
 
     }
 

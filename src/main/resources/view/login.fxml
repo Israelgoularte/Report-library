@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
 <BorderPane id="login" styleClass="root" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.LoginController">
     <left>
         <!--inicio main box-->
         <VBox fx:id="loginbox" styleClass="adjust-box">
             <!-- inicio login box -->
             <VBox styleClass="medium-box">
-                <Label text="Login" fx:id="teste" styleClass="label-title" />
+                <Label text="Login" styleClass="label-title" />
                 <HBox maxWidth="220" styleClass="comum-box">
                     <Label minWidth="70" text="DataBase:" />
                     <ChoiceBox fx:id="selectServer" prefWidth="150" />
@@ -23,8 +21,8 @@
                     <Label minWidth="70" text="Senha:" />
                     <PasswordField fx:id="passwordField" prefWidth="150" />
                 </HBox>
-                <Button fx:id="loginButton" minWidth="120"  onAction="#login" text="Login" styleClass="button-positivo" />
-                <Button fx:id="signupButton" minWidth="120" onAction="#signup" text="Cadastre-se" styleClass="button-alerta"/>
+                <Button fx:id="loginButton"   onAction="#login" text="Login" styleClass="button-acessar"  />
+                <Button fx:id="signupButton"  onAction="#signup" text="Cadastre-se" />
             </VBox>
             <!-- final login box -->
 

@@ -5,3 +5,8 @@
 @import "styles/texteField_Style.css";
 @import "styles/choiceBox_Style.css";
 @import "styles/progressBar_Style.css";
+
+
+.button{
+    -fx-min-width: 120;
+}

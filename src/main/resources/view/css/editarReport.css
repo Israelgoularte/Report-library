@@ -39,6 +39,14 @@
     -fx-alignment: center-left;
 }
 
-.field-custom{
-    -fx-pref-width: 200;
+.label{
+    -fx-wrap-text: false;
 }
+
+.text-field-menor{
+    -fx-pref-width: 150;
+    -fx-max-width: 150;
+    -fx-max-height: 30;
+}
+
+

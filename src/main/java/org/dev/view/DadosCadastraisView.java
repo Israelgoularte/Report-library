@@ -3,6 +3,7 @@ package org.dev.view;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
+
 import java.io.IOException;
 
 public class DadosCadastraisView implements ViewInterface {

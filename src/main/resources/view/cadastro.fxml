@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane stylesheets="@css/cadastro.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.dev.control.CadastroController">
@@ -38,8 +37,8 @@
                     <TextField fx:id="anoNascimento" prefWidth="60.0" promptText="Ano" />
                 </HBox>
                 <HBox styleClass="comum-box">
-                    <Button onAction="#voltar" text="Cancelar" />
-                    <Button onAction="#cadastrar" text="Cadastrar" />
+                    <Button onAction="#voltar" text="Cancelar" styleClass="button-excluir" />
+                    <Button onAction="#cadastrar" text="Cadastrar"  styleClass="button-acessar" />
                 </HBox>
             </VBox>
             <VBox fx:id="warningBox" visible="false" styleClass="medium-box">

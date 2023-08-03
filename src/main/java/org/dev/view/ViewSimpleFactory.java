@@ -3,7 +3,7 @@ package org.dev.view;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import org.dev.control.StageController;
+import org.dev.util.contexto.StageContexto;
 
 import java.io.IOException;
 
@@ -13,22 +13,12 @@ public class ViewSimpleFactory {
         ViewInterface vf = ConstantsView.valueOf(tela).getVf();
         try {
             BorderPane root = vf.createRoot();
-            // Carregue a imagem corretamente usando getResourceAsStream
-//            Image img = new Image(ViewSimpleFactory.class.getResourceAsStream("/view/css/img/cf.png"));
-//            BackgroundImage backgroundImage = new BackgroundImage(
-//                    img,
-//                    BackgroundRepeat.NO_REPEAT,
-//                    BackgroundRepeat.NO_REPEAT,
-//                    BackgroundPosition.CENTER,
-//                    new BackgroundSize(1.0, 1.0, true, true, false, false)
-//            );
-//            root.setBackground(new Background(backgroundImage));
 
-            Scene scene = new Scene(root);
-            Stage stage = StageController.getInstance().getStage();
+            Stage stage = StageContexto.getInstance().getContexto();
+            Scene scene = new Scene(root,stage.getWidth(),stage.getHeight());
             stage.setScene(scene);
-            //stage.setMaximized(true);
             stage.show();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

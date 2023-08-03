@@ -4,11 +4,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import org.dev.control.UnitControl;
-import org.dev.control.service.LinksService;
-import org.dev.control.service.UsuarioService;
-import org.dev.control.service.boxCreators.LinksControllerFactory;
-import org.dev.control.service.boxCreators.MenuNavegacaoFactory;
+import org.dev.service.fxelement.HomeReportChoiceOptionsFilter;
+import org.dev.service.fxelement.HomeReportFilterCard;
+import org.dev.service.fxelement.HomeReportLoadMyServices;
+import org.dev.service.fxelement.MenuReportOptionsMyServices;
+import org.dev.service.usuario.LogoutMyServices;
+import org.dev.util.menssagensInternas.GenericMenssage;
 import org.dev.view.ViewSimpleFactory;
 
 import java.net.URL;
@@ -35,17 +36,14 @@ public class HomeController implements Initializable {
 
 
     @FXML
-    private Menu menu_links;
+    private Menu menuReport;
 
     @FXML
     private ChoiceBox<String> tipeChoiceFilter;
 
     //INTERNOS
-    private LinksControllerFactory lcf;
 
-    public HomeController(){
-        lcf = new LinksControllerFactory();
-    }
+    public HomeController(){}
 
     //inicializador
 
@@ -53,39 +51,44 @@ public class HomeController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         loadLinksBox();
-        for (String string :LinksService.getInstance().categoriasCadastradas()) {
-            categoriaChoiceFilter.getItems().add(string);
-        }
-        categoriaChoiceFilter.getItems().add("Todos");
-        categoriaChoiceFilter.setValue("Todos");
-        for (String tipo: LinksService.getInstance().tiposCadastradas()) {
-            this.tipeChoiceFilter.getItems().add(tipo);
-        }
-        tipeChoiceFilter.getItems().add("Todos");
-        tipeChoiceFilter.setValue("Todos");
 
-        MenuNavegacaoFactory.createMenu(menu_links);
+        GenericMenssage<Boolean,String> addChoiceOptionsTipoFilterResult = new HomeReportChoiceOptionsFilter(tipeChoiceFilter,"tipo").execute();
+        if (addChoiceOptionsTipoFilterResult.getMenssageOne()){
+            //possibilidade de tratativa de erros
+        }
+
+        GenericMenssage<Boolean,String> addChoiceOptionCategoriaFilterResult = new HomeReportChoiceOptionsFilter(categoriaChoiceFilter,"categoria").execute();
+        if (addChoiceOptionCategoriaFilterResult.getMenssageOne()){
+            //possibilidade de tratativa de eerros
+        }
+
+        GenericMenssage<Boolean,String> menuReportLoadResult = new MenuReportOptionsMyServices(menuReport).execute();
+        if (menuReportLoadResult.getMenssageOne()){
+            //possibilidade de tratativa de erros.
+        }
     }
 
     public void loadLinksBox(){
-        lcf.createLinkBox(centralBox);
+        GenericMenssage<Boolean,String> loadCardsResult = new HomeReportLoadMyServices(centralBox).execute();
+        if (loadCardsResult.getMenssageOne()){
+            //possibilidade de realizar tratativa de erros;
+        }
         haveContent();
     }
 
     //Ações
     @FXML
     public void dadosUsuario() {
-        LinksService.closeService();
         ViewSimpleFactory.createView("DADOS_CADASTRAIS");
     }
 
     @FXML
     public void logout() {
-
-        UsuarioService.closeService();
-        UnitControl.getInstance().setUnit(null);
+        GenericMenssage<Boolean,String> logoutResult = new LogoutMyServices().execute();
+        if (logoutResult.getMenssageOne()){
+            //possibilidade de tratativa de erro;
+        }
         ViewSimpleFactory.createView("LOGIN");
-
     }
 
     private void haveContent(){
@@ -93,6 +96,7 @@ public class HomeController implements Initializable {
             Label empity = new Label("Nenhum resultado encontrado");
             empity.getStyleClass().add("label-alerta");
             Button btnAdicioanrLink = new Button("Adicionar Link");
+            btnAdicioanrLink.getStyleClass().add("button-acessar");
             btnAdicioanrLink.setOnAction(e ->{
                 adicionarLink();
             });
@@ -108,51 +112,15 @@ public class HomeController implements Initializable {
 
     @FXML
     public void filter(){
-        lcf.createLinkBoxFiltered(
-                filtroNome.getText(),
-                tipeChoiceFilter.getValue(),
-                categoriaChoiceFilter.getValue(),
-                filtroDescricao.getText(),
-                centralBox
-        );
+        GenericMenssage<Boolean,String> filterResult = new HomeReportFilterCard
+                (
+                    centralBox,
+                    filtroNome.getText(),
+                    tipeChoiceFilter.getValue(),
+                    categoriaChoiceFilter.getValue(),
+                    filtroDescricao.getText()
+                )
+                .execute();
         haveContent();
-    }
-
-    @FXML
-    public void filtrarCategoria() {
-        try {
-            lcf.createLinkBoxCategoriaFiltered(categoriaChoiceFilter.getValue(),centralBox);
-            haveContent();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-    @FXML
-    public void filtrarDescricao() {
-        try {
-            lcf.createLinkBoxDescricaoFiltered(filtroDescricao.getText(),centralBox);
-            haveContent();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void filtrarNome() {
-        try {
-            lcf.createLinkBoxNomeFiltered(filtroNome.getText(),centralBox);
-            haveContent();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-    @FXML
-    public void filterTipe() {
-        try {
-            lcf.createLinkBoxCategoriaFiltered(tipeChoiceFilter.getValue(),centralBox);
-            haveContent();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 }

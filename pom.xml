@@ -12,9 +12,9 @@
 
       <properties>
           <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-          <maven.compiler.source>17</maven.compiler.source>
-          <maven.compiler.target>17</maven.compiler.target>
-          <maven.compiler.release>17</maven.compiler.release> <!-- Nova propriedade para especificar a versão de release do Java -->
+          <maven.compiler.source>20</maven.compiler.source>
+          <maven.compiler.target>20</maven.compiler.target>
+          <maven.compiler.release>20</maven.compiler.release> <!-- Nova propriedade para especificar a versão de release do Java -->
       </properties>
 
     <dependencies>
@@ -44,7 +44,6 @@
         <artifactId>postgresql</artifactId>
         <version>42.2.23</version>
       </dependency>
-
         <dependency>
             <groupId>com.hierynomus</groupId>
             <artifactId>smbj</artifactId>
@@ -92,6 +91,8 @@
                                   <exclude>META-INF/NOTICE</exclude>
                                   <exclude>META-INF/NOTICE.md</exclude> <!-- Exclude duplicado -->
                                   <exclude>META-INF/substrate/config/resourcebundles</exclude> <!-- Exclude duplicado -->
+                                  <exclude>META-INF/MANIFEST.MF</exclude>
+                                  <exclude>META-INF/versions/*/module-info.class</exclude>
                               </excludes>
                           </filter>
                       </filters>
@@ -127,7 +128,7 @@
                       <artifactId>maven-compiler-plugin</artifactId>
                       <version>3.8.1</version>
                       <configuration>
-                          <release>17</release> <!-- Especificar a versão de release do Java -->
+                          <release>20</release> <!-- Especificar a versão de release do Java -->
                       </configuration>
                   </plugin>
               </plugins>

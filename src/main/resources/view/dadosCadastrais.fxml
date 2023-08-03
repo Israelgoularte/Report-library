@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 <BorderPane
             xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -17,7 +14,7 @@
                     <Menu text="Navegação">
                         <MenuItem text="Inicio" onAction="#voltar"/>
                         <MenuItem text="Novo Link" onAction="#adicionarLink"/>
-                        <Menu text="Acessar Links" fx:id="links_menu"/>
+                        <Menu text="Acessar Links" fx:id="reportMenu"/>
                     </Menu>
                     <Menu text="Help">
                         <MenuItem text="Em breve!"/>
@@ -92,8 +89,8 @@
                 </tabs>
             </TabPane>
             <HBox fx:id="buttonBox" styleClass="medium-box" >
-                <Button onAction="#voltar" prefWidth="120.0" text="Voltar"/>
-                <Button onAction="#editarCadastro" prefWidth="120.0" text="Editar Cadastro"/>
+                <Button onAction="#voltar" text="Voltar"/>
+                <Button onAction="#editarCadastro" text="Editar Cadastro" styleClass="button-editar"/>
             </HBox>
         </VBox>
     </center>

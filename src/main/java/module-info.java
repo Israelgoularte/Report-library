@@ -7,15 +7,13 @@ module programas.uteis {
     requires java.xml.bind;
     requires java.desktop;
 
-    opens org.dev.init to javafx.fxml;
+    opens org.dev.init;
     opens org.dev.model;
     opens org.dev.control;
     opens org.dev.util;
-
-
+    opens org.dev.service;
+    opens org.dev.util.contexto;
+    opens org.dev.util.tarefas;
     exports org.dev.init;
-    opens org.dev.control.repository;
-    opens org.dev.control.service;
-    opens org.dev.control.service.boxCreators;
 
 }

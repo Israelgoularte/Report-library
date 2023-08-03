@@ -6,12 +6,18 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@jakarta.persistence.Table(name = "pessoa")
+@Table(name = "pessoa", schema = "software_warehouse", catalog = "uznvzfyz")
 public class PessoaModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @jakarta.persistence.Column(name = "id_pessoa", nullable = false)
+    @Column(name = "id_pessoa", nullable = false)
     private int idPessoa;
+    @Basic
+    @Column(name = "nome", nullable = true, length = 255)
+    private String nome;
+    @Basic
+    @Column(name = "data_nascimento", nullable = true)
+    private Date dataNascimento;
 
     public int getIdPessoa() {
         return idPessoa;
@@ -21,10 +27,6 @@ public class PessoaModel {
         this.idPessoa = idPessoa;
     }
 
-    @Basic
-    @Column(name = "nome", nullable = true, length = 255)
-    private String nome;
-
     public String getNome() {
         return nome;
     }
@@ -32,10 +34,6 @@ public class PessoaModel {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    @Basic
-    @Column(name = "data_nascimento", nullable = true)
-    private Date dataNascimento;
 
     public Date getDataNascimento() {
         return dataNascimento;
@@ -45,29 +43,17 @@ public class PessoaModel {
         this.dataNascimento = dataNascimento;
     }
 
-    @Basic
-    @Column(name = "id_login", nullable = true)
-    private Integer idLogin;
-
-    public Integer getIdLogin() {
-        return idLogin;
-    }
-
-    public void setIdLogin(Integer idLogin) {
-        this.idLogin = idLogin;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PessoaModel that = (PessoaModel) o;
-        return idPessoa == that.idPessoa && Objects.equals(nome, that.nome) && Objects.equals(dataNascimento, that.dataNascimento) && Objects.equals(idLogin, that.idLogin);
+        return idPessoa == that.idPessoa && Objects.equals(nome, that.nome) && Objects.equals(dataNascimento, that.dataNascimento);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPessoa, nome, dataNascimento, idLogin);
+        return Objects.hash(idPessoa, nome, dataNascimento);
     }
 
 }

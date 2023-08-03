@@ -33,3 +33,13 @@
 .choice-box .label{
     -fx-alignment: center-left;
 }
+
+.label{
+    -fx-wrap-text: false;
+}
+
+.text-field-menor{
+    -fx-pref-width: 150;
+    -fx-max-width: 150;
+    -fx-max-height: 30;
+}

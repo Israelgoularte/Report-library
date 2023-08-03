@@ -20,3 +20,7 @@
     -fx-min-width: 60;
     -fx-max-width: 60;
 }
+
+.button{
+    -fx-min-width: 120;
+}

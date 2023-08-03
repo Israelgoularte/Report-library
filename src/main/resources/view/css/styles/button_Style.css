@@ -42,3 +42,18 @@
     -fx-background-color: -cor_atencao_pressed;
 
 }
+
+.button-editar{
+    -fx-background-color: -cor_alerta;
+    -fx-min-width: 60;
+
+}
+
+.button-editar:hover{
+    -fx-background-color: -cor_alerta_hover;
+}
+
+.button-editar:pressed{
+    -fx-background-color: -cor_alerta_pressed;
+
+}

@@ -3,12 +3,12 @@ package org.dev.util;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import org.dev.control.UnitControl;
+import org.dev.util.contexto.UnitContexto;
 
 public class TruncateDataBase {
     public static void truncade(){
         // Obtém uma instância do EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory(UnitControl.getInstance().getUnit());
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory(UnitContexto.getInstance().getContexto());
         EntityManager em = emf.createEntityManager();
 
         try {

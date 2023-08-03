@@ -3,6 +3,7 @@
     -fx-text-fill: -cor_text;
     -fx-alignment: center-right;
     -fx-font-family: -font_family;
+    -fx-wrap-text: true;
 }
 
 .label-title{

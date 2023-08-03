@@ -1,15 +1,19 @@
 package org.dev.control;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
-import org.dev.control.service.AuthenticationTask;
-import org.dev.control.service.boxCreators.ChoiceBDFactory;
-import org.dev.util.ClipboardCopy;
+import org.dev.service.MyServicesDAO;
+import org.dev.service.fxelement.DbOptionsGenerationMyServices;
+import org.dev.service.usuario.LoginMyServices;
 import org.dev.util.ExceptionMensagen;
 import org.dev.util.TruncateDataBase;
+import org.dev.util.menssagensInternas.GenericMenssage;
+import org.dev.util.tarefas.ServiceTask;
 import org.dev.view.ViewSimpleFactory;
 
 import java.io.IOException;
@@ -34,9 +38,6 @@ public class LoginController implements Initializable {
     @FXML
     private ProgressBar progress;
 
-    @FXML
-    private Label teste;
-
     public LoginController(){
     }
     @Override
@@ -50,23 +51,12 @@ public class LoginController implements Initializable {
         warning.setWrapText(true);
         warning.getStyleClass().add("label-warning");
 
-        ChoiceBDFactory.addDataBaseChoices(selectServer);
+        GenericMenssage<Boolean,String> executionMenssage = new DbOptionsGenerationMyServices(selectServer).execute();
 
+        if(executionMenssage.getMenssageOne()){
+            //pode ser adicionar um alerta caso não seja feito a leitura do arquivo XML de forma correta.
+        }
 
-        ContextMenu cm = new ContextMenu();
-        MenuItem copi = new MenuItem("Copiar");
-        copi.setOnAction(e ->{
-            String textToCopy = teste.getText();
-            ClipboardCopy.copyToClipboard(textToCopy);
-        });
-
-        teste.setContextMenu(cm);
-        teste.setOnMouseClicked(e->{
-            if(e.getButton().name().equalsIgnoreCase("SECONDARY")){
-                String textToCopy = teste.getText();
-                ClipboardCopy.copyToClipboard(textToCopy);
-            }
-        });
     }
 
     @FXML
@@ -75,38 +65,48 @@ public class LoginController implements Initializable {
         progress.setVisible(true);
         warningBox.setVisible(true);
         warningBox.getChildren().remove(warning);
-
-        AuthenticationTask authenticationTask = new AuthenticationTask(usernameField.getText().toLowerCase(), passwordField.getText(), progress);
         progress.setStyle("-fx-accent: #e3d70d;");
 
-        authenticationTask.setOnSucceeded(e -> {
-            if (authenticationTask.getValue()) {
+        DoubleProperty prog = new SimpleDoubleProperty(0.1);
+
+        progress.progressProperty().bind(prog);
+
+
+
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        MyServicesDAO service = new LoginMyServices(username,password);
+
+        prog.setValue(0.2);
+        ServiceTask task = new ServiceTask(service,progress);
+
+        task.setOnSucceeded(e -> {
+            if (task.getValue()) {
                 ViewSimpleFactory.createView("HOME");
             } else {
-                progress.setStyle("-fx-accent: #ff0e13;");
-                warning.setText(ExceptionMensagen.simpleMenssage(authenticationTask.getMessage(),"Usuario" ));
-                warningBox.getChildren().add(1,warning);
-                usernameField.setText("");
-                passwordField.setText("");
-                usernameField.requestFocus();
+                failedTask(task);
             }
         });
 
-        authenticationTask.setOnFailed(e -> {
-            progress.setStyle("-fx-accent: #ff0e13;");
-            warning.setText(ExceptionMensagen.simpleMenssage(authenticationTask.getException().getMessage(), "Usuario"));
-            warningBox.getChildren().add(1,warning);
-            usernameField.setText("");
-            passwordField.setText("");
-            usernameField.requestFocus();
-
+        task.setOnFailed(e -> {
+            failedTask(task);
         });
-
-        progress.progressProperty().bind(authenticationTask.progressProperty());
-        Thread thread = new Thread(authenticationTask);
+        prog.setValue(0.3);
+        progress.progressProperty().bind(task.progressProperty());
+        Thread thread = new Thread(task);
         thread.setDaemon(true); // Define a thread como daemon para que ela não impeça o encerramento da aplicação
         thread.start();
+    }
 
+    private void failedTask(ServiceTask task) {
+        progress.setStyle("-fx-accent: #ff0e13;");
+        String simpleMenssage = ExceptionMensagen.simpleMenssage(task.getMessage());
+        warning.setText(simpleMenssage);
+        warningBox.getChildren().add(1,warning);
+        usernameField.setText("");
+        passwordField.setText("");
+        usernameField.requestFocus();
     }
 
     @FXML

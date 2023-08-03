@@ -9,9 +9,9 @@
 
     <persistence-unit name="Teste" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>org.dev.model.LoginModel</class>
         <class>org.dev.model.PessoaModel</class>
-        <class>org.dev.model.LinksModel</class>
+        <class>org.dev.model.ReportModel</class>
+        <class>org.dev.model.UsuarioModel</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://silly.db.elephantsql.com:5432/uznvzfyz"/>
@@ -21,15 +21,19 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.default_schema" value="software_warehouse"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://silly.db.elephantsql.com:5432/uznvzfyz"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="uznvzfyz"/>
+            <property name="hibernate.connection.password" value="6cqcJLePTGkwIUC8pA2CryeVG1n6WbLI"/>
         </properties>
     </persistence-unit>
 
 
     <persistence-unit name="You-Database" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>org.dev.model.LoginModel</class>
+        <class>org.dev.model.UsuarioModel</class>
         <class>org.dev.model.PessoaModel</class>
-        <class>org.dev.model.LinksModel</class>
+        <class>org.dev.model.ReportModel</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>

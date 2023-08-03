@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import java.lang.String?>
 <BorderPane stylesheets="@css/addReport.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.dev.control.addReportController">
     <!-- ... Restante do código ... -->
@@ -16,7 +12,7 @@
                 <MenuBar>
                     <Menu fx:id="menu_navegacao" text="Navegação">
                         <MenuItem text="Inicio" onAction="#linksPage"/>
-                        <Menu text="Acessar Links" fx:id="links_menu"/>
+                        <Menu text="Acessar Links" fx:id="reportMenu"/>
 
                     </Menu>
                     <Menu text="Help">
@@ -54,11 +50,11 @@
                         </HBox>
                         <HBox fx:id="tipoBox" styleClass="comum-box">
                             <Label styleClass="label-title" text="Tipo:" />
-                            <ChoiceBox fx:id="tipoChoice" onAction="#checkTipoChoice"/>
+                            <ChoiceBox fx:id="tipoChoice" />
                         </HBox>
                         <HBox fx:id="categoriaBox" styleClass="comum-box">
                             <Label styleClass="label-title" text="Categoria:"  />
-                            <ChoiceBox fx:id="categoriaChoice" onAction="#checkCategoriaChoice"/>
+                            <ChoiceBox fx:id="categoriaChoice" />
                         </HBox>
                         <HBox styleClass="comum-box">
                             <Label styleClass="label-title" text="Link:" />
@@ -71,8 +67,8 @@
                     </VBox>
                     <HBox styleClass="comum-box">
                         <HBox styleClass="radio-box" maxWidth="220">
-                            <Button prefWidth="100" fx:id="novoLink" mnemonicParsing="false" onAction="#saveNovoLink" text="Salvar" />
-                            <Button prefWidth="100" fx:id="limparNovoLink" mnemonicParsing="false" onAction="#limparNovoLink" text="Limpar" />
+                            <Button prefWidth="120" fx:id="limparNovoLink" mnemonicParsing="false" onAction="#limparNovoLink" text="Limpar" styleClass="button-excluir"/>
+                            <Button prefWidth="120" fx:id="novoLink" mnemonicParsing="false" onAction="#saveNovoLink" text="Salvar" styleClass="button-acessar"/>
                         </HBox>
                     </HBox>
                     <VBox fx:id="warningBox" styleClass="medium-box" visible="false">
